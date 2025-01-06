@@ -32,7 +32,7 @@ CREATE TABLE
     Professeur (
         id SERIAL PRIMARY KEY,
         specialite VARCHAR(255) NOT NULL,
-        CONSTRAINT fk_personne_professeur FOREIGN KEY (id) REFERENCES Personne (id) ON DELETE CASCADE
+        CONSTRAINT fk_personne_professeur FOREIGN KEY (id) REFERENCES Utilisateur (id) ON DELETE CASCADE
     );
 
 -- Table Module

@@ -16,9 +16,9 @@ public class Utilisateur {
 	private String username;
 	private String password;
 	private String role;
-//	@Relation(type = RelationType.ONE_TO_ONE)
-//	@JointureDeColonne(nom = "id")
-//	private Personne personne;
+	@Relation(type = RelationType.ONE_TO_ONE)
+	@JointureDeColonne(nom = "id")
+	private Personne personne;
 //	public TeacherInformationsDTO findTeacherInformations() {
 //		return null;
 //	}

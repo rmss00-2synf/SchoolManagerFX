@@ -14,14 +14,14 @@ import java.util.Date;
 @Setter
 @ToString
 public class Etudiant {
-	private int id;
 	private String matricule;
 	private Date date_naissance;
 	private String email;
 	private int promotion;
-//	@Relation(type=RelationType.ONE_TO_ONE,mappedBy = "id_etudiant")
-//	private Inscription inscription;
-//	@Relation(type = RelationType.ONE_TO_ONE)
-//	@JointureDeColonne(nom = "id")
+	@Relation(type=RelationType.ONE_TO_ONE,mappedBy = "id_etudiant")
+	private Inscription inscription;
+	@Relation(type = RelationType.ONE_TO_ONE)
+	@JointureDeColonne(nom = "id")
+	private Personne personne;
 
 }

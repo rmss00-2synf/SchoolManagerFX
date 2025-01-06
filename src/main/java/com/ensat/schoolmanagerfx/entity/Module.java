@@ -18,12 +18,11 @@ public class Module {
 	private String nom_module;
 	private String code_module;
 	private int id_professeur;
-//	@Relation(type = RelationType.ONE_TO_MANY)
-//	private Collection<Inscription> inscription;
-//
-//	@Relation(type = RelationType.MANY_TO_ONE)
-//	@JointureDeColonne(nom = "id_professeur")
-//	private Professeur professeur;
+	@Relation(type = RelationType.ONE_TO_MANY)
+	private Collection<Inscription> inscription;
+	@Relation(type = RelationType.MANY_TO_ONE)
+	@JointureDeColonne(nom = "id_professeur")
+	private Professeur professeur;
 	public boolean assigneAModuleToTeacher(Professeur teacher) {
 		return false;
 	}

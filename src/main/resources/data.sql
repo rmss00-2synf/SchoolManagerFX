@@ -18,14 +18,14 @@ INSERT INTO Etudiant (id, matricule, date_naissance, email, promotion) VALUES
 
 -- Insertion dans la table Professeur
 INSERT INTO Professeur (id, specialite) VALUES
-                                            (5, 'Informatique'),
-                                            (4, 'Mathématiques');
+                                            (1, 'Informatique'),
+                                            (2, 'Mathématiques');
 
 -- Insertion dans la table Module
 INSERT INTO Module (id,nom_module, code_module, id_professeur) VALUES
-                                                                   (1,'Programmation Orientée Objet', 'POO101', 5),
-                                                                   (2,'Analyse Numérique', 'AN102', 4),
-                                                                   (3,'Bases de Données Avancées', 'BDA103', 5);
+                                                                   (1,'Programmation Orientée Objet', 'POO101', 1),
+                                                                   (2,'Analyse Numérique', 'AN102', 1),
+                                                                   (3,'Bases de Données Avancées', 'BDA103', 2);
 
 -- Insertion dans la table Inscription
 INSERT INTO Inscription (date_inscription, id_etudiant, id_module) VALUES

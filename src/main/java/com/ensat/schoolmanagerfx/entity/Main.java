@@ -9,10 +9,11 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+//        System.out.println("Hello World!");
 //        EtudiantDao etudiantDao = Inject.init(EtudiantDao.class);
 //        etudiantDao.getAll(Etudiant.class);
 //        System.out.println(etudiantDao.getAll(Etudiant.class).size());
+//        System.out.println(etudiantDao.getAll(Etudiant.class));
 
 //        ModuleDao moduleDao = Inject.init(ModuleDao.class);
 //        System.out.println(moduleDao.getAll(Module.class));

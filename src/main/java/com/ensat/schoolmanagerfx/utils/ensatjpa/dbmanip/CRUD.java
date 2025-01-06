@@ -5,6 +5,7 @@ import com.ensat.schoolmanagerfx.utils.ensatjpa.anotations.Relation;
 import com.ensat.schoolmanagerfx.utils.ensatjpa.config.DatabaseConnection;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -61,7 +62,6 @@ public interface CRUD<T,PK> {
             throw new RuntimeException("Error creating record: " + e.getMessage(), e);
         }
     }
-
     default boolean update(T entity) {
         try {
             Class<?> clazz = entity.getClass();
@@ -126,7 +126,6 @@ public interface CRUD<T,PK> {
             throw new RuntimeException("Error updating record: " + e.getMessage(), e);
         }
     }
-
     default boolean delete(T entity) {
         try {
             Class<?> clazz = entity.getClass();
@@ -162,7 +161,6 @@ public interface CRUD<T,PK> {
             throw new RuntimeException("Error deleting record: " + e.getMessage(), e);
         }
     }
-
     default Optional<T> getById(Class<T> entity, PK id) {
         try {
             String tableName = entity.getSimpleName().toUpperCase();
@@ -195,8 +193,7 @@ public interface CRUD<T,PK> {
         }
         return Optional.empty();
     }
-
-    default List<T> getAll(Class<T> entity) {
+    default List<?> getAll(Class<T> entity) {
         List<T> resultList = new ArrayList<>();
         try {
             String tableName = entity.getSimpleName().toUpperCase();
@@ -204,47 +201,60 @@ public interface CRUD<T,PK> {
             System.out.println(sql);
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
-            return resultSetOfQuery(entity,rs).get();
+            return (List<?>) mappingResultSetObject(entity,rs).orElse(null);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-
-    default Optional<List<T>> resultSetOfQuery(Class<T> entity, ResultSet resultSet)
-    {
-
-        List<T> resultList = new ArrayList<>();
+    default boolean isARelationField(Field field) {
+        if (field.isAnnotationPresent(Relation.class)) {
+            Relation relation = field.getAnnotation(Relation.class);
+            return relation.mappedBy().isEmpty();
+        }
+        return false;
+    }
+    default ResultSet executeQuery(String request) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(request);
+            return statement.executeQuery();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    default Optional<?> mappingResultSetObject(Class<?> clazz,ResultSet resultSet) {
+        List<Object> resultList = new ArrayList<>();
         try {
             while (resultSet.next()) {
-                T instance = entity.getDeclaredConstructor().newInstance();
-                Field[] fields = entity.getDeclaredFields();
-                System.out.println(fields.length);
-                int i=0;
+                Object instance = clazz.getDeclaredConstructor().newInstance();
+                Field[] fields = clazz.getDeclaredFields();
                 for (Field field : fields) {
-                    if (field.isAnnotationPresent(JointureDeColonne.class)) {
+                    if (field.isAnnotationPresent(Relation.class))
+                    System.out.println(field.getName()+" : "+field.isAnnotationPresent(JointureDeColonne.class)+" : "+
+                            isARelationField(field)+" : "+field.isAnnotationPresent(Relation.class)+" : "+
+                            field.getAnnotation(Relation.class).mappedBy().isEmpty());
+                    if (isARelationField(field) && field.isAnnotationPresent(JointureDeColonne.class)) {
                         JointureDeColonne colonne = field.getAnnotation(JointureDeColonne.class);
-                        field.setAccessible(true);
-                        Object value = resultSet.getObject(colonne.nom());
-                        field.set(instance, value);
-                    } else if (!isARelationField(field)) {
+                        Type genericType = field.getGenericType();
+                            Class<?> clazz2 = (Class<?>) genericType;
+                            String query = "SELECT * FROM " + clazz2.getSimpleName().toUpperCase()+" WHERE id = "+resultSet.getObject(colonne.nom());
+                            ResultSet rs = executeQuery(query);
+                            Object instance2 = mappingResultSetObject(clazz2, rs).orElse(null);
+                            if (instance2 instanceof ArrayList<?> arrayList) {
+                                field.setAccessible(true);
+                                field.set(instance, arrayList.getFirst());
+                            }
+
+                    } else if (!field.isAnnotationPresent(Relation.class)) {
                         field.setAccessible(true);
                         Object value = resultSet.getObject(field.getName());
                         field.set(instance, value);
                     }
                 }
-                System.out.println(instance);
                 resultList.add(instance);
             }
         }catch (Exception _){
         }
         return Optional.of(resultList);
     }
-
-    default boolean isARelationField(Field field) {
-        if (field.isAnnotationPresent(Relation.class)) {
-            Relation relation = field.getAnnotation(Relation.class);
-            return !relation.mappedBy().isEmpty();
-        }
-        return false;
-    }
 }
+

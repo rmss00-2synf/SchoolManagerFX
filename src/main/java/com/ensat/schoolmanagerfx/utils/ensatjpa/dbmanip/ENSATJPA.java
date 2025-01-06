@@ -8,15 +8,14 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ENSATJPA <T,PK> extends CRUD<T,PK>{
-    default Optional<List<T>> findByAttribute(Class<T> entity, String query) {
+    default Optional<?> findByAttribute(Class<T> entity, String query) {
         System.out.println("findByAttribute ========================== ALYY ALLY");
         System.out.println("attribute: " + query);
-        List<T> resultList = new ArrayList<>();
         try {
             System.out.println(query);
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet rs = statement.executeQuery();
-            return resultSetOfQuery(entity,rs);
+            return mappingResultSetObject(entity,rs);
         } catch (SQLException e) {
             throw new RuntimeException("Error retrieving records: " + e.getMessage(), e);
         }

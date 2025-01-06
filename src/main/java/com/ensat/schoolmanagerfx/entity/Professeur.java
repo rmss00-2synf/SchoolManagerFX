@@ -8,6 +8,7 @@ import com.ensat.schoolmanagerfx.utils.ensatjpa.config.RelationType;
 import lombok.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,10 +17,9 @@ import java.util.Collection;
 @ToString
 public class Professeur {
 	private String specialite;
-	private int id;
-//	@Relation(type = RelationType.ONE_TO_MANY, mappedBy = "id_professeur")
-//	private Collection<Module> module;
-//	@Relation(type = RelationType.ONE_TO_ONE)
-//	@JointureDeColonne(nom = "id")
-//	private Utilisateur utilisateur;
+	@Relation(type = RelationType.ONE_TO_MANY, mappedBy = "id_professeur")
+	private List<Module> module;
+	@Relation(type = RelationType.ONE_TO_ONE)
+	@JointureDeColonne(nom = "id")
+	private Utilisateur utilisateur;
 }
