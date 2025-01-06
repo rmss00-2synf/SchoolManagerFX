@@ -5,6 +5,8 @@ import com.ensat.schoolmanagerfx.utils.ensatjpa.anotations.Relation;
 import com.ensat.schoolmanagerfx.utils.ensatjpa.config.DatabaseConnection;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,48 +21,52 @@ public interface CRUD<T,PK> {
     Connection connection = DatabaseConnection.getInstance().getConnection();
 
     default boolean save(T entity) {
-        try {
-            Class<?> clazz = entity.getClass();
-            String tableName = clazz.getSimpleName().toUpperCase();
-            Field[] fields = clazz.getDeclaredFields();
-            StringBuilder columns = new StringBuilder();
-            StringBuilder placeholders = new StringBuilder();
-            for (Field field : fields) {
-                if (field.isAnnotationPresent(JointureDeColonne.class)) {
-                    JointureDeColonne colonne = field.getAnnotation(JointureDeColonne.class);
-                    columns.append(colonne.nom()).append(",");
-                    placeholders.append("?,");
-                } else if (!isARelationField(field)) {
-                    field.setAccessible(true);
-                    columns.append(field.getName()).append(",");
-                    placeholders.append("?,");
-                }
-            }
-            // Supprimer la dernière virgule
-            columns.deleteCharAt(columns.length() - 1);
-            placeholders.deleteCharAt(placeholders.length() - 1);
-            // Générer la requête SQL
-            String sql = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, columns, placeholders);
-            System.out.println(sql);
-            PreparedStatement statement = connection.prepareStatement(sql);
-
-            // Injecter les valeurs dans la requête
-            int index = 1;
-            for (Field field : fields) {
-                if (field.isAnnotationPresent(JointureDeColonne.class) || !isARelationField(field)) {
-                    field.setAccessible(true);
-                    statement.setObject(index++, field.get(entity)); // Récupérer la valeur du champ
-                    System.out.println(field.getName() + " " + field.get(entity));
-                }
-            }
-            statement.executeUpdate();
-            statement.close();
-            System.out.println("Record created in table: " + tableName);
-            return true;
-
-        } catch (SQLException | IllegalAccessException e) {
-            throw new RuntimeException("Error creating record: " + e.getMessage(), e);
-        }
+        return mappingObjectResultSet(entity);
+//        try {
+//            Class<?> clazz = entity.getClass();
+//            String tableName = clazz.getSimpleName().toUpperCase();
+//            Field[] fields = clazz.getDeclaredFields();
+//            StringBuilder columns = new StringBuilder();
+//            StringBuilder placeholders = new StringBuilder();
+//            for (Field field : fields) {
+//                if (isARelationField(field) && field.isAnnotationPresent(JointureDeColonne.class)){
+//
+//                }
+//                if (field.isAnnotationPresent(JointureDeColonne.class)) {
+//                    JointureDeColonne colonne = field.getAnnotation(JointureDeColonne.class);
+//                    columns.append(colonne.nom()).append(",");
+//                    placeholders.append("?,");
+//                } else if (!field.isAnnotationPresent(Relation.class)) {
+//                    field.setAccessible(true);
+//                    columns.append(field.getName()).append(",");
+//                    placeholders.append("?,");
+//                }
+//            }
+//            // Supprimer la dernière virgule
+//            columns.deleteCharAt(columns.length() - 1);
+//            placeholders.deleteCharAt(placeholders.length() - 1);
+//            // Générer la requête SQL
+//            String sql = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, columns, placeholders);
+//            System.out.println(sql);
+//            PreparedStatement statement = connection.prepareStatement(sql);
+//
+//            // Injecter les valeurs dans la requête
+//            int index = 1;
+//            for (Field field : fields) {
+//                if (field.isAnnotationPresent(JointureDeColonne.class) || !isARelationField(field)) {
+//                    field.setAccessible(true);
+//                    statement.setObject(index++, field.get(entity)); // Récupérer la valeur du champ
+//                    System.out.println(field.getName() + " " + field.get(entity));
+//                }
+//            }
+//            statement.executeUpdate();
+//            statement.close();
+//            System.out.println("Record created in table: " + tableName);
+//            return true;
+//
+//        } catch (SQLException | IllegalAccessException e) {
+//            throw new RuntimeException("Error creating record: " + e.getMessage(), e);
+//        }
     }
     default boolean update(T entity) {
         try {
@@ -161,40 +167,20 @@ public interface CRUD<T,PK> {
             throw new RuntimeException("Error deleting record: " + e.getMessage(), e);
         }
     }
-    default Optional<T> getById(Class<T> entity, PK id) {
+    default Optional<T> findById(Class<T> entity, PK id) {
         try {
             String tableName = entity.getSimpleName().toUpperCase();
-
-            T instance = (T) entity.getDeclaredConstructor().newInstance();
-
             String sql = String.format("SELECT * FROM %s WHERE id = ?", tableName);
-
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setObject(1, id);
             ResultSet rs = statement.executeQuery();
-
-            if (rs.next()) {
-                for (Field field : entity.getDeclaredFields()) {
-                    if (field.isAnnotationPresent(JointureDeColonne.class)) {
-                        JointureDeColonne colonne = field.getAnnotation(JointureDeColonne.class);
-                        field.setAccessible(true);
-                        Object value = rs.getObject(colonne.nom());
-                        field.set(instance, value);
-                    } else if (!isARelationField(field)) {
-                        field.setAccessible(true);
-                        Object value = rs.getObject(field.getName());
-                        field.set(instance, value);
-                    }
-                }
-                return Optional.of(instance);
-            }
-        } catch (SQLException | ReflectiveOperationException e) {
+            Optional<?> opt = mappingResultSetObject(entity, rs);
+            return (Optional<T>) opt;
+        } catch (SQLException e) {
             throw new RuntimeException("Error retrieving record: " + e.getMessage(), e);
         }
-        return Optional.empty();
     }
-    default List<?> getAll(Class<T> entity) {
-        List<T> resultList = new ArrayList<>();
+    default List<?> findAll(Class<T> entity) {
         try {
             String tableName = entity.getSimpleName().toUpperCase();
             String sql = String.format("SELECT * FROM %s", tableName);
@@ -223,15 +209,16 @@ public interface CRUD<T,PK> {
     }
     default Optional<?> mappingResultSetObject(Class<?> clazz,ResultSet resultSet) {
         List<Object> resultList = new ArrayList<>();
+
         try {
             while (resultSet.next()) {
                 Object instance = clazz.getDeclaredConstructor().newInstance();
                 Field[] fields = clazz.getDeclaredFields();
                 for (Field field : fields) {
-                    if (field.isAnnotationPresent(Relation.class))
-                    System.out.println(field.getName()+" : "+field.isAnnotationPresent(JointureDeColonne.class)+" : "+
-                            isARelationField(field)+" : "+field.isAnnotationPresent(Relation.class)+" : "+
-                            field.getAnnotation(Relation.class).mappedBy().isEmpty());
+//                    if (field.isAnnotationPresent(Relation.class))
+//                    System.out.println(field.getName()+" : "+field.isAnnotationPresent(JointureDeColonne.class)+" : "+
+//                            isARelationField(field)+" : "+field.isAnnotationPresent(Relation.class)+" : "+
+//                            field.getAnnotation(Relation.class).mappedBy().isEmpty());
                     if (isARelationField(field) && field.isAnnotationPresent(JointureDeColonne.class)) {
                         JointureDeColonne colonne = field.getAnnotation(JointureDeColonne.class);
                         Type genericType = field.getGenericType();
@@ -255,6 +242,80 @@ public interface CRUD<T,PK> {
         }catch (Exception _){
         }
         return Optional.of(resultList);
+    }
+
+
+    default boolean mappingObjectResultSet(Object instance) {
+        try {
+            Class<?> clazz = instance.getClass();
+            String tableName = clazz.getSimpleName().toUpperCase();
+            Field[] fields = clazz.getDeclaredFields();
+            StringBuilder columns = new StringBuilder();
+            StringBuilder placeholders = new StringBuilder();
+
+            for (Field field : fields) {
+                if (isARelationField(field) && field.isAnnotationPresent(JointureDeColonne.class)){
+                    Method[] methods = clazz.getDeclaredMethods();
+                    for (Method method : methods) {
+                        if (method.getName().toUpperCase().startsWith("GET"+field.getName().toUpperCase())) {
+                            Object object = method.invoke(instance);
+                            mappingObjectResultSet(object);
+                        }
+                    }
+                        JointureDeColonne colonne = field.getAnnotation(JointureDeColonne.class);
+                        columns.append(colonne.nom()).append(",");
+                        placeholders.append("?,");
+                }
+                else if (!field.isAnnotationPresent(Relation.class)) {
+                    field.setAccessible(true);
+                    columns.append(field.getName()).append(",");
+                    placeholders.append("?,");
+                }}
+
+        // Supprimer la dernière virgule
+            columns.deleteCharAt(columns.length() - 1);
+            placeholders.deleteCharAt(placeholders.length() - 1);
+            // Générer la requête SQL
+            String sql = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, columns, placeholders);
+            System.out.println(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+
+            // Injecter les valeurs dans la requête
+            int index = 1;
+            for (Field field : fields) {
+                if (isARelationField(field) && field.isAnnotationPresent(JointureDeColonne.class)) {
+                    field.setAccessible(true);
+                    JointureDeColonne colonne = field.getAnnotation(JointureDeColonne.class);
+                    Object object = field.get(instance);
+                    columns.append(colonne.nom()).append(",");
+                    placeholders.append("?,");
+                    Method[] methods = object.getClass().getDeclaredMethods();
+                    for (Method method : methods) {
+                        if (method.getName().toUpperCase().startsWith("GET"+colonne.nom().toUpperCase())) {
+                            statement.setObject(index++, method.invoke(object)); // Récupérer la valeur du champ
+                            System.out.println(field.getName() + " " + field.get(instance));
+                        }
+                    }
+                }else
+                if (!field.isAnnotationPresent(Relation.class)) {
+                    field.setAccessible(true);
+                    statement.setObject(index++, field.get(instance)); // Récupérer la valeur du champ
+                    System.out.println(field.getName() + " " + field.get(instance));
+                }
+
+            }
+            statement.executeUpdate();
+            statement.close();
+            System.out.println("Record created in table: " + tableName);
+            return true;
+
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 
