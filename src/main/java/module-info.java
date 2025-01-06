@@ -10,6 +10,9 @@ module com.ensat.schoolmanagerfx {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires static lombok;
+    requires java.sql;
+    requires java.validation;
 
     opens com.ensat.schoolmanagerfx to javafx.fxml;
     exports com.ensat.schoolmanagerfx;
