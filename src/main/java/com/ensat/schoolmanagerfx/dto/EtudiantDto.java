@@ -10,11 +10,13 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
+@Builder
 public class EtudiantDto {
-        private Long id;
+        private int id;
         private String matricule;
         private Date date_naissance;
         private String email;
-        private Long promation;
-        private Inscription inscription;
+        private int promation;
+        private String nom;
+        private String prenom;
 }

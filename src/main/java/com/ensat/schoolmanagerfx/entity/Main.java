@@ -28,7 +28,7 @@ public class Main {
 //        ModuleDao moduleDao = Inject.init(ModuleDao.class);
 //        System.out.println(moduleDao.findById_professeur(5,new Module()).get());
         ProfesseurService professeurService = new ProfesseurService();
-        System.out.println(professeurService.getModulesByProfesseur(5));
+        System.out.println(professeurService.getEtudiantsByModule(1));
     }
 
     public static void test(Class<?> clazz) {

@@ -1,9 +1,11 @@
 package com.ensat.schoolmanagerfx.service;
 
+import com.ensat.schoolmanagerfx.dao.InscriptionDao;
 import com.ensat.schoolmanagerfx.dao.ModuleDao;
 import com.ensat.schoolmanagerfx.dao.ProfesseurDao;
 import com.ensat.schoolmanagerfx.dto.EtudiantDto;
 import com.ensat.schoolmanagerfx.dto.ModuleDto;
+import com.ensat.schoolmanagerfx.entity.Inscription;
 import com.ensat.schoolmanagerfx.utils.ensatjpa.proxy.Inject;
 import com.ensat.schoolmanagerfx.entity.Module;
 
@@ -14,10 +16,12 @@ import java.util.Optional;
 public class ProfesseurService {
     private final ProfesseurDao professeurDao;
     private final ModuleDao moduleDao;
+    private final InscriptionDao inscriptionDao;
 
     public ProfesseurService() {
         this.professeurDao= Inject.init(ProfesseurDao.class);
         this.moduleDao= Inject.init(ModuleDao.class);
+        this.inscriptionDao= Inject.init(InscriptionDao.class);
     }
 
     public List<ModuleDto> getModulesByProfesseur(int profId){
@@ -30,15 +34,20 @@ public class ProfesseurService {
                 moduleDtos.add(convertToDto(module));
             }
 
-        } else {
-            throw new RuntimeException("Il n'ya pas de module pour ce prof");
         }
         return moduleDtos;
     }
 
 
     public List<EtudiantDto> getEtudiantsByModule(int moduleId){
-        return null;
+        List<Inscription> inscriptions = inscriptionDao.findById_module(moduleId,new Inscription()).orElse(null);
+        List<EtudiantDto> etudiantDtos = new ArrayList<>();
+        if (inscriptions!=null) {
+            for (Inscription inscription : inscriptions) {
+                etudiantDtos.add(convertToDto(inscription));
+            }
+        }
+        return etudiantDtos;
     }
 
 
@@ -50,6 +59,18 @@ public class ProfesseurService {
                 .nom_module(module.getNom_module())
                 .build();
 
+    }
+
+    private EtudiantDto convertToDto(Inscription dto){
+        return EtudiantDto.builder()
+                .nom(dto.getEtudiant().getNom())
+                .prenom(dto.getEtudiant().getPrenom())
+                .email(dto.getEtudiant().getEmail())
+                .date_naissance(dto.getEtudiant().getDate_naissance())
+                .id(dto.getEtudiant().getId())
+                .promation(dto.getEtudiant().getPromotion())
+                .matricule(dto.getEtudiant().getMatricule())
+                .build();
     }
 
 }
