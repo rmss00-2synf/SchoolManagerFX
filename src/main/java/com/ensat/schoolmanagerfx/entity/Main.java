@@ -1,6 +1,7 @@
 package com.ensat.schoolmanagerfx.entity;
 
 import com.ensat.schoolmanagerfx.dao.*;
+import com.ensat.schoolmanagerfx.service.ProfesseurService;
 import com.ensat.schoolmanagerfx.utils.ensatjpa.proxy.Inject;
 
 public class Main {
@@ -24,7 +25,10 @@ public class Main {
 //        System.out.println(personneDao.findAll(Professeur.class));
        // UtilisateurDao utilisateurDao = Inject.init(UtilisateurDao.class);
         // System.out.println(utilisateurDao.findCredentials("",new Utilisateur(),"omar.admin","admin123"));
-
+//        ModuleDao moduleDao = Inject.init(ModuleDao.class);
+//        System.out.println(moduleDao.findById_professeur(5,new Module()).get());
+        ProfesseurService professeurService = new ProfesseurService();
+        System.out.println(professeurService.getModulesByProfesseur(5));
     }
 
     public static void test(Class<?> clazz) {
