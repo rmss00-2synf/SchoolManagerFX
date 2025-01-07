@@ -19,3 +19,4 @@ public interface UtilisateurDao extends ENSATJPA<Utilisateur, Long> {
     List<Utilisateur> findByRole(String role);
 }
 
+
