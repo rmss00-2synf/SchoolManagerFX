@@ -24,7 +24,7 @@ class DynamicInvocationHandler implements InvocationHandler {
         } else {
             if (method.getName().contains("findBy")) {
                 Class<?>[] parameterTypes = method.getParameterTypes();
-                StringBuilder request = new StringBuilder("SELECT * FROM "+parameterTypes[1].getSimpleName().toUpperCase()+" WHERE ");
+                StringBuilder request = new StringBuilder("SELECT * FROM "+args[1].getClass().getSimpleName().toUpperCase()+" WHERE ");
                 request.append(method.getName().replace("findBy", "")).append(" = '").append(args[0].toString()).append("';");
                 System.out.println("m2 called, now calling m1...");
                 args[0]=request.toString();

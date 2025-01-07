@@ -1,6 +1,5 @@
 package com.ensat.schoolmanagerfx.entity;
 
-import com.ensat.schoolmanagerfx.entity.asset.Personne;
 import com.ensat.schoolmanagerfx.utils.ensatjpa.anotations.JointureDeColonne;
 import com.ensat.schoolmanagerfx.utils.ensatjpa.anotations.Relation;
 import com.ensat.schoolmanagerfx.utils.ensatjpa.config.RelationType;
