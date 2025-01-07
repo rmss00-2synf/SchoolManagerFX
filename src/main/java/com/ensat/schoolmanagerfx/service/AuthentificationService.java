@@ -18,29 +18,48 @@ public class AuthentificationService {
     }
 
     public Optional<String> login(String username, String password) {
-        // Vérifier les identifiants dans la base de données
-        Optional<Utilisateur> user = utilisateurDao.findCredentials(username, password);
+        try {
+            // Use a method that explicitly takes username and password as parameters
+            Optional<Utilisateur> user = utilisateurDao.findCredentials(username, password);
 
-        if (user.isPresent()) {
-            // Retourner un jeton simple (par exemple, le nom d'utilisateur ou un UUID si nécessaire)
-            return Optional.of("USER_TOKEN_" + username);
-        } else {
-            // Retourner vide si l'utilisateur n'est pas trouvé
+            if (user.isPresent()) {
+                // Generate a more secure token (this is a simple example, consider using JWT in a real application)
+                return Optional.of(generateToken(username));
+            } else {
+                return Optional.empty();
+            }
+        } catch (Exception e) {
+            // Log the exception
+            System.err.println("Error during login: " + e.getMessage());
+            e.printStackTrace();
             return Optional.empty();
         }
     }
 
     public Optional<String> getUserRole(String token) {
-        // Exemple simple pour extraire le rôle depuis un token (ou base de données)
-        if (token.startsWith("USER_TOKEN_")) {
-            String username = token.replace("USER_TOKEN_", "");
+        try {
+            String username = extractUsernameFromToken(token);
             return utilisateurDao.findByUsername(username).map(Utilisateur::getRole);
+        } catch (Exception e) {
+            // Log the exception
+            System.err.println("Error getting user role: " + e.getMessage());
+            e.printStackTrace();
+            return Optional.empty();
         }
-        return Optional.empty();
     }
 
     public void logout(String token) {
-        // Si vous avez une gestion de session ou autre, nettoyez ici
-        System.out.println("User logged out: " + token);
+        // Implement logout logic if needed (e.g., invalidate token)
+        System.out.println("User logged out: " + extractUsernameFromToken(token));
+    }
+
+    private String generateToken(String username) {
+        // In a real application, use a more secure method to generate tokens
+        return "USER_TOKEN_" + username + "_" + System.currentTimeMillis();
+    }
+
+    private String extractUsernameFromToken(String token) {
+        // Simple extraction, adapt based on your token generation logic
+        return token.split("_")[2];
     }
 }
