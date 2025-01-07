@@ -9,4 +9,8 @@ import java.util.Optional;
 
 public interface EtudiantDao extends ENSATJPA<Etudiant, Long> {
     Optional<List<Etudiant>> findByMatricule(String matricule, Etudiant etudiant);
+
+    @Requete(value = "SELECT * FROM ETUDIANT;")
+    Optional<List<Etudiant>> lesEtudiants(String matricule, Etudiant etudiant);
+
 }

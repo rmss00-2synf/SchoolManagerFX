@@ -9,7 +9,7 @@ public class Main {
         EtudiantDao etudiantDao = Inject.init(EtudiantDao.class);
 //        test(Etudiant.class);
 //        etudiantDao.getAll(Etudiant.class);
-        System.out.println(etudiantDao.findByMatricule("ENSA12345",new Etudiant()).get());
+        System.out.println(etudiantDao.lesEtudiants("ENSA12345",new Etudiant()).get());
 //        System.out.println(etudiantDao.findById(Etudiant.class,3L).get());
 //        java.util.Date utilDate = new java.util.Date();
 //        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());

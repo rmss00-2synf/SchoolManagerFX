@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ENSATJPA <T,PK> extends CRUD<T,PK>{
-    default Optional<?> findByAttribute(String query,Class<T> entity) {
+    default Optional<?> findByQuery(String query,Class<T> entity) {
         System.out.println("findByAttribute ========================== ALYY ALLY");
         System.out.println("attribute: " + query);
         try {
