@@ -84,14 +84,19 @@
 
 /* Logo Style */
 .logo {
-    -fx-image: url("images/ensatLogo.png"); /* Replace 'logo.png' with the path to your logo */
+    -fx-image: url("ensatLogo.png"); /* Replace 'logo.png' with the path to your logo */
     -fx-padding: 10;
 }
 
 /* Icon Style */
 .icon {
-    -fx-image: url("images/icons8_lock_52px.png"); /* Replace with the path to your icon */
-    -fx-opacity: 0.7;
+    -fx-image: url("icons8_lock_52px.png"); /* Replace with the path to your icon */
+    -fx-opacity: 1;
+}
+
+.iconUser {
+    -fx-image: url("icons8_user_64px.png"); /* Replace with the path to your icon */
+    -fx-opacity: 1;
 }
 
 /* Hyperlink Styling */
