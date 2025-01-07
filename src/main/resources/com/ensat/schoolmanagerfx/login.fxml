@@ -23,7 +23,7 @@
                 <!-- Username Field -->
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <ImageView fitWidth="20" fitHeight="20" pickOnBounds="true" preserveRatio="true"
-                               styleClass="icon" fx:id="usernameIcon"/>
+                               styleClass="iconUser" fx:id="usernameIcon" />
                     <TextField promptText="Username" styleClass="form-field"/>
                 </HBox>
 

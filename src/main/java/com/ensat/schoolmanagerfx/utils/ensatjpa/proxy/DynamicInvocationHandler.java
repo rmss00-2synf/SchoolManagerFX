@@ -28,7 +28,6 @@ class DynamicInvocationHandler implements InvocationHandler {
                 request.append(method.getName().replace("findBy", "")).append(" = '").append(args[0].toString()).append("';");
                 System.out.println("m2 called, now calling m1...");
                 return caller(proxy,method,args,request.toString());
-
             }
         }
         // Comportement générique pour les méthodes non annotées
