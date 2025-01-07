@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefWidth="969.0" styleClass="root" stylesheets="@styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.ensat.schoolmanagerfx.HomeController">
+    <!-- Statistiques principales -->
+    <!-- Barre de recherche -->
+    <HBox spacing="20">
+        <TextField prefHeight="26.0" prefWidth="266.0" promptText="Search" style="-fx-pref-width: 300px; -fx-padding: 5; -fx-border-radius: 15; -fx-background-radius: 15;" />
+    </HBox>
+<HBox spacing="20" style="-fx-padding: 10;">
+    <!-- Section des statistiques -->
+    <HBox spacing="20" style="-fx-padding: 10;">
+        <VBox alignment="CENTER" spacing="5" style="-fx-background-color: #f8d7da; -fx-padding: 30; -fx-border-radius: 15; -fx-background-radius: 15;">
+            <Label style="-fx-text-fill: green;" text="↑ 15%" />
+            <Label fx:id="studentsLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="124,684" />
+            <Label style="-fx-text-fill: gray;" text="Students" />
+        </VBox>
+        <VBox alignment="CENTER" spacing="5" style="-fx-background-color: #fff3cd; -fx-padding: 30; -fx-border-radius: 15; -fx-background-radius: 15;">
+            <Label style="-fx-text-fill: red;" text="↓ 3%" />
+            <Label fx:id="teachersLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="12,379" />
+            <Label style="-fx-text-fill: gray;" text="Teachers" />
+        </VBox>
+        <VBox alignment="CENTER" spacing="5" style="-fx-background-color: #d6d8ff; -fx-padding: 30; -fx-border-radius: 15; -fx-background-radius: 15;">
+            <Label style="-fx-text-fill: red;" text="↓ 3%" />
+            <Label fx:id="staffsLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="29,300" />
+            <Label style="-fx-text-fill: gray;" text="Staffs" />
+        </VBox>
+        <VBox alignment="CENTER" spacing="5" style="-fx-background-color: #fff3cd; -fx-padding: 30; -fx-border-radius: 15; -fx-background-radius: 15;">
+            <Label style="-fx-text-fill: green;" text="↑ 9%" />
+            <Label fx:id="awardsLabel" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="95,800" />
+            <Label style="-fx-text-fill: gray;" text="Awards" />
+        </VBox>
+    </HBox>
+
+    <!-- Contenu principal -->
+    <VBox prefHeight="155.0" prefWidth="279.0" spacing="20" style="-fx-background-color: #ffffff; -fx-border-radius: 10; -fx-padding: 15; -fx-pref-width: 300; -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 0, 0);  -fx-background-radius: 15;">
+
+        <VBox fx:id="calendarBox" spacing="10" alignment="CENTER" style="-fx-background-color: #f9f9f9; -fx-padding: 10; -fx-border-radius: 15; -fx-background-radius: 15;">
+            <Label fx:id="monthYearLabel" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+            <GridPane fx:id="calendarGrid" styleClass="calendar-grid" />
+        </VBox>
+
+    </VBox>
+
+
+</HBox>
+<!--    <VBox fx:id="mainContent" spacing="20" style="-fx-padding: 20;" HBox.hgrow="ALWAYS">-->
+<!--        <Button text="Toggle Sidebar" style="-fx-background-color: #007bff; -fx-text-fill: white;" onAction="#toggleSidebar" />-->
+<!--        <Label fx:id="contentTitle" text="Welcome to the Dashboard" style="-fx-font-size: 24;" />-->
+<!--        <Label fx:id="contentBody" text="This is the main content area." />-->
+<!--    </VBox>-->
+</VBox>
+
+
