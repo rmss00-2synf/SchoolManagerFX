@@ -6,7 +6,7 @@ import com.ensat.schoolmanagerfx.utils.ensatjpa.proxy.Inject;
 public class Main {
     public static void main(String[] args) {
 //        System.out.println("Hello World!");
-        EtudiantDao etudiantDao = Inject.init(EtudiantDao.class);
+//        EtudiantDao etudiantDao = Inject.init(EtudiantDao.class);
 //        test(Etudiant.class);
 //        etudiantDao.getAll(Etudiant.class);
 //        System.out.println(etudiantDao.lesEtudiants("ENSA12345",new Etudiant()).get());
