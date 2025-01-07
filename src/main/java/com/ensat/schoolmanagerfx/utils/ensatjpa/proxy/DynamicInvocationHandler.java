@@ -24,12 +24,14 @@ class DynamicInvocationHandler implements InvocationHandler {
         } else {
             if (method.getName().contains("findBy")) {
                 Class<?>[] parameterTypes = method.getParameterTypes();
-                StringBuilder request = new StringBuilder("SELECT * FROM "+parameterTypes[1].getSimpleName().toUpperCase()+" WHERE ");
+                StringBuilder request = new StringBuilder("SELECT * FROM "+args[1].getClass().getSimpleName().toUpperCase()+" WHERE ");
                 request.append(method.getName().replace("findBy", "")).append(" = '").append(args[0].toString()).append("';");
                 System.out.println("m2 called, now calling m1...");
                 args[0]=request.toString();
                 // Appelez la méthode m1 sur le proxy I1 (super méthode)
-                Method m1Method = ENSATJPA.class.getMethod("findByAttribute", args[0].getClass(),Object.class);
+                Method m1Method = ENSATJPA.class.getMethod("findByAttribute", String.class,Class.class);
+                args[1]=args[1].getClass();
+                m1Method.setAccessible(true);
                 return m1Method.invoke(proxy, args);
 
             }
