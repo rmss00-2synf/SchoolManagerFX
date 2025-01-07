@@ -11,7 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class Utilisateur {
+public class Utilisateur extends Personne {
 	private int id;
 	private String username;
 	private String password;
