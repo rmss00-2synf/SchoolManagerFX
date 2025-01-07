@@ -3,5 +3,5 @@
     <DRIVER>org.postgresql.Driver</DRIVER>
     <URL>jdbc:postgresql://localhost:5432/bdstudents</URL>
     <USERNAME>postgres</USERNAME>
-    <PASSWORD>admin1234</PASSWORD>
+    <PASSWORD>famille123</PASSWORD>
 </database-configuration>

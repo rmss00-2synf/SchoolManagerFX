@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
 //        System.out.println("Hello World!");
         EtudiantDao etudiantDao = Inject.init(EtudiantDao.class);
-//        etudiantDao.getAll(Etudiant.class);
+//      etudiantDao.getAll(Etudiant.class);
 //        System.out.println(etudiantDao.getAll(Etudiant.class).size());
         System.out.println(etudiantDao.findById(Etudiant.class,3L).get());
         java.util.Date utilDate = new java.util.Date();
