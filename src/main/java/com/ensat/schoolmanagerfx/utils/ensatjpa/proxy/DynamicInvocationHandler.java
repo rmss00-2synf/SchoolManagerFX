@@ -14,6 +14,17 @@ class DynamicInvocationHandler implements InvocationHandler {
         if (method.isAnnotationPresent(Requete.class)) {
             Requete annotation = method.getAnnotation(Requete.class);
                 System.out.println("Executing annotated method: " + annotation.value());
+
+                if (args.length > 2) {
+                    Object[] objects = new Object[args.length - 2];
+                    String query = annotation.value();;
+                    for (int i = 2; i < args.length; i++) {
+                        query = query.replaceFirst("\\?", "'" + args[i].toString() + "'" );
+                        objects[i-2] = args[i-2];
+                    }
+                    System.out.println(query);
+                    return caller(proxy,method,objects,query);
+                }
                 String request = annotation.value();
             return caller(proxy,method,args,request);
         }

@@ -2,6 +2,7 @@ package com.ensat.schoolmanagerfx.service;
 
 import com.ensat.schoolmanagerfx.dao.UtilisateurDao;
 import com.ensat.schoolmanagerfx.entity.Utilisateur;
+import com.ensat.schoolmanagerfx.utils.ensatjpa.proxy.Inject;
 
 import java.util.Optional;
 
@@ -10,8 +11,8 @@ public class AuthentificationService {
     private final UtilisateurDao utilisateurDao;
 
     // Injectez le DAO via le constructeur
-    public AuthentificationService(UtilisateurDao utilisateurDao) {
-        this.utilisateurDao = utilisateurDao;
+    public AuthentificationService() {
+        this.utilisateurDao = Inject.init(UtilisateurDao.class);
     }
 
     // Méthode pour valider les identifiants
@@ -20,12 +21,12 @@ public class AuthentificationService {
         String query = "SELECT * FROM Utilisateur WHERE username = '" + username + "' AND password = '" + password + "'";
 
         // Appeler findByAttribute avec la requête SQL
-        Optional<?> result = utilisateurDao.findByAttribute(query, Utilisateur.class);
+//        Optional<?> result = utilisateurDao.findByAttribute(query, Utilisateur.class);
 
         // Vérifier le résultat et effectuer le casting approprié
-        if (result.isPresent()) {
-            return Optional.of((Utilisateur) result.get());
-        }
+//        if (result.isPresent()) {
+//            return Optional.of((Utilisateur) result.get());
+//        }
         return Optional.empty();
     }
 
