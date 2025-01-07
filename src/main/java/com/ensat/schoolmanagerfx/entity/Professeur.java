@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Professeur {
+public class Professeur extends Utilisateur {
 	private String specialite;
 	@Relation(type = RelationType.ONE_TO_MANY, mappedBy = "id_professeur")
 	private List<Module> module;

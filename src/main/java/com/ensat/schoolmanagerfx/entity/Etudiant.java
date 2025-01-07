@@ -13,7 +13,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class Etudiant {
+public class Etudiant extends Personne {
 	private String matricule;
 	private Date date_naissance;
 	private String email;
