@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.ensat.schoolmanagerfx.DashBoardController">
+<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.ensat.schoolmanagerfx.controller.DashBoardController">
     <!-- Sidebar -->
     <VBox fx:id="sidebar" spacing="10" style="-fx-background-color: #7386D5; -fx-pref-width: 250; -fx-padding: 10;">
         <Label text="Bootstrap Sidebar" style="-fx-text-fill: white; -fx-font-size: 18;" />

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefWidth="969.0" styleClass="root" stylesheets="@styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.ensat.schoolmanagerfx.HomeController">
+<VBox prefWidth="969.0" styleClass="root" stylesheets="@styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.ensat.schoolmanagerfx.controller.HomeController">
     <!-- Statistiques principales -->
     <!-- Barre de recherche -->
     <HBox spacing="20">

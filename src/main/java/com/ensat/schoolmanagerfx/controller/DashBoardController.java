@@ -1,4 +1,4 @@
-package com.ensat.schoolmanagerfx;
+package com.ensat.schoolmanagerfx.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -22,11 +22,6 @@ public class DashBoardController {
     @FXML
     private Label contentTitle;
 
-    @FXML
-    private Label contentBody;
-
-    @FXML
-    private VBox mainContent;
 
 
     private boolean isSidebarCollapsed = false; // Indique si la barre latérale est réduite
@@ -40,7 +35,7 @@ public class DashBoardController {
         addIconToHBox(portfolioHBox, "/icons/project-manager.png");
         addIconToHBox(contactHBox, "/icons/inscription.png");
         addIconToHBox(InscriHBox, "/icons/stack-of-books.png");
-        navigateHome();
+//        navigateHome();
     }
 
     private void addIconToHBox(HBox hbox, String iconPath) {
@@ -87,7 +82,7 @@ public class DashBoardController {
     protected void navigateHome() {
         try {
             // Charger la vue Home
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Home-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/Home-view.fxml"));
             Parent homeRoot = loader.load();
 
             // Réinitialiser la zone de contenu (contentArea) uniquement
