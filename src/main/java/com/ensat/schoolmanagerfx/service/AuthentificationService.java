@@ -2,7 +2,6 @@ package com.ensat.schoolmanagerfx.service;
 
 import com.ensat.schoolmanagerfx.dao.UtilisateurDao;
 import com.ensat.schoolmanagerfx.entity.Utilisateur;
-import com.ensat.schoolmanagerfx.utils.ensatjpa.proxy.Inject;
 
 import java.util.Optional;
 
@@ -10,28 +9,38 @@ public class AuthentificationService {
 
     private final UtilisateurDao utilisateurDao;
 
-    // Injectez le DAO via le constructeur
-    public AuthentificationService() {
-        this.utilisateurDao = Inject.init(UtilisateurDao.class);
+    public AuthentificationService(UtilisateurDao utilisateurDao) {
+        this.utilisateurDao = utilisateurDao;
     }
 
-    // Méthode pour valider les identifiants
-    public Optional<Utilisateur> authentifier(String username, String password) {
-        // Construire une requête SQL pour chercher l'utilisateur
-        String query = "SELECT * FROM Utilisateur WHERE username = '" + username + "' AND password = '" + password + "'";
+    public UtilisateurDao getUtilisateurDao() {
+        return utilisateurDao;
+    }
 
-        // Appeler findByAttribute avec la requête SQL
-//        Optional<?> result = utilisateurDao.findByAttribute(query, Utilisateur.class);
+    public Optional<String> login(String username, String password) {
+        // Vérifier les identifiants dans la base de données
+        Optional<Utilisateur> user = utilisateurDao.findCredentials(username, password);
 
-        // Vérifier le résultat et effectuer le casting approprié
-//        if (result.isPresent()) {
-//            return Optional.of((Utilisateur) result.get());
-//        }
+        if (user.isPresent()) {
+            // Retourner un jeton simple (par exemple, le nom d'utilisateur ou un UUID si nécessaire)
+            return Optional.of("USER_TOKEN_" + username);
+        } else {
+            // Retourner vide si l'utilisateur n'est pas trouvé
+            return Optional.empty();
+        }
+    }
+
+    public Optional<String> getUserRole(String token) {
+        // Exemple simple pour extraire le rôle depuis un token (ou base de données)
+        if (token.startsWith("USER_TOKEN_")) {
+            String username = token.replace("USER_TOKEN_", "");
+            return utilisateurDao.findByUsername(username).map(Utilisateur::getRole);
+        }
         return Optional.empty();
     }
 
-    // Méthode pour vérifier si un utilisateur a un rôle spécifique
-    public boolean verifierRole(Utilisateur utilisateur, String role) {
-        return utilisateur.getRole() != null && utilisateur.getRole().equals(role);
+    public void logout(String token) {
+        // Si vous avez une gestion de session ou autre, nettoyez ici
+        System.out.println("User logged out: " + token);
     }
 }

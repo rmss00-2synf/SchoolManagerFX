@@ -22,8 +22,8 @@ public class Main {
 //        System.out.println(inscriptionDao.getAll(Inscription.class));
 //        ProfesseurDao personneDao = Inject.init(ProfesseurDao.class);
 //        System.out.println(personneDao.findAll(Professeur.class));
-        UtilisateurDao utilisateurDao = Inject.init(UtilisateurDao.class);
-        System.out.println(utilisateurDao.findCredentials("",new Utilisateur(),"omar.admin","admin123"));
+       // UtilisateurDao utilisateurDao = Inject.init(UtilisateurDao.class);
+        // System.out.println(utilisateurDao.findCredentials("",new Utilisateur(),"omar.admin","admin123"));
 
     }
 
