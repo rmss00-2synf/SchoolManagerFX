@@ -1,0 +1,105 @@
+/* Color Variables */
+* {
+    -fx-primary: #003366;
+    -fx-secondary: #E67E22;
+    -fx-accent: #2980B9;
+    -fx-grey: #95A5A6;
+    -fx-white: #FFFFFF;
+    -fx-red: #E74C3C;
+
+    -fx-focus-color: -fx-secondary;
+}
+
+/* Common Styles */
+.root {
+    -fx-background-color: #F5F6FA;
+    -fx-font-family: "System";
+}
+
+/* Header Styles */
+.header {
+    -fx-background-color: -fx-secondary;
+    -fx-padding: 15;
+}
+
+.header-text {
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Form Styles */
+.form-container {
+    -fx-background-color: white;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: -fx-grey;
+    -fx-border-width: 1;
+    -fx-padding: 20;
+}
+
+.form-field {
+    -fx-pref-width: 200;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: -fx-grey;
+    -fx-border-width: 1;
+    -fx-padding: 10;
+}
+
+.section-header {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary;
+}
+
+.button {
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-padding: 8 15;
+    -fx-font-weight: bold;
+}
+
+.button-primary {
+    -fx-background-color: -fx-accent;
+    -fx-text-fill: white;
+}
+
+.button-primary:hover {
+    -fx-background-color: derive(-fx-accent, -10%);
+}
+
+.button-secondary {
+    -fx-background-color: -fx-secondary;
+    -fx-text-fill: white;
+}
+
+.button-secondary:hover {
+    -fx-background-color: derive(-fx-secondary, -10%);
+}
+
+.message-label {
+    -fx-text-fill: -fx-grey;
+}
+
+/* Logo Style */
+.logo {
+    -fx-image: url("images/ensatLogo.png"); /* Replace 'logo.png' with the path to your logo */
+    -fx-padding: 10;
+}
+
+/* Icon Style */
+.icon {
+    -fx-image: url("images/icons8_lock_52px.png"); /* Replace with the path to your icon */
+    -fx-opacity: 0.7;
+}
+
+/* Hyperlink Styling */
+.hyperlink {
+    -fx-text-fill: -fx-secondary;
+    -fx-font-weight: bold;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: derive(-fx-secondary, -20%);
+}
