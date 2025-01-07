@@ -35,7 +35,7 @@ public class DashBoardController {
         addIconToHBox(portfolioHBox, "/icons/project-manager.png");
         addIconToHBox(contactHBox, "/icons/inscription.png");
         addIconToHBox(InscriHBox, "/icons/stack-of-books.png");
-//        navigateHome();
+        navigateHome();
     }
 
     private void addIconToHBox(HBox hbox, String iconPath) {
@@ -100,42 +100,102 @@ public class DashBoardController {
 
     @FXML
     protected void navigateAbout() {
-        contentTitle.setText("About");
-        contentArea.getChildren().clear(); // Efface le contenu actuel
-        Label aboutContent = new Label("This is the About section.");
-        contentArea.getChildren().add(aboutContent);
+        try {
+            // Charger la vue Home
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/Student-view.fxml"));
+            Parent homeRoot = loader.load();
+
+            // Réinitialiser la zone de contenu (contentArea) uniquement
+            contentArea.getChildren().clear();
+
+            // Ajouter la vue Home au contentArea
+            contentArea.getChildren().add(homeRoot);
+
+            System.out.println("Navigated to Home");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error: Unable to load Home-view.fxml");
+        }
     }
 
     @FXML
     protected void navigatePages() {
-        contentTitle.setText("Pages");
-        contentArea.getChildren().clear(); // Efface le contenu actuel
-        Label pagesContent = new Label("This is the Pages section.");
-        contentArea.getChildren().add(pagesContent);
+        try {
+            // Charger la vue Home
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/Prof-view.fxml"));
+            Parent homeRoot = loader.load();
+
+            // Réinitialiser la zone de contenu (contentArea) uniquement
+            contentArea.getChildren().clear();
+
+            // Ajouter la vue Home au contentArea
+            contentArea.getChildren().add(homeRoot);
+
+            System.out.println("Navigated to Home");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error: Unable to load Home-view.fxml");
+        }
     }
 
     @FXML
     protected void navigatePortfolio() {
-        contentTitle.setText("Portfolio");
-        contentArea.getChildren().clear(); // Efface le contenu actuel
-        Label portfolioContent = new Label("This is the Portfolio section.");
-        contentArea.getChildren().add(portfolioContent);
+        try {
+            // Charger la vue Home
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/Secretaire-view.fxml"));
+            Parent homeRoot = loader.load();
+
+            // Réinitialiser la zone de contenu (contentArea) uniquement
+            contentArea.getChildren().clear();
+
+            // Ajouter la vue Home au contentArea
+            contentArea.getChildren().add(homeRoot);
+
+            System.out.println("Navigated to Home");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error: Unable to load Home-view.fxml");
+        }
     }
 
     @FXML
     protected void InscriHBox() {
-        contentTitle.setText("Inscriptions");
-        contentArea.getChildren().clear(); // Efface le contenu actuel
-        Label portfolioContent = new Label("This is the Portfolio section.");
-        contentArea.getChildren().add(portfolioContent);
+        try {
+            // Charger la vue Home
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/Module-view.fxml"));
+            Parent homeRoot = loader.load();
+
+            // Réinitialiser la zone de contenu (contentArea) uniquement
+            contentArea.getChildren().clear();
+
+            // Ajouter la vue Home au contentArea
+            contentArea.getChildren().add(homeRoot);
+
+            System.out.println("Navigated to Home");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error: Unable to load Home-view.fxml");
+        }
     }
 
     @FXML
     protected void navigateContact() {
-        contentTitle.setText("Contact");
-        contentArea.getChildren().clear(); // Efface le contenu actuel
-        Label contactContent = new Label("This is the Contact section.");
-        contentArea.getChildren().add(contactContent);
+        try {
+            // Charger la vue Home
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/Inscription-view.fxml"));
+            Parent homeRoot = loader.load();
+
+            // Réinitialiser la zone de contenu (contentArea) uniquement
+            contentArea.getChildren().clear();
+
+            // Ajouter la vue Home au contentArea
+            contentArea.getChildren().add(homeRoot);
+
+            System.out.println("Navigated to Home");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error: Unable to load Home-view.fxml");
+        }
     }
 
 }
