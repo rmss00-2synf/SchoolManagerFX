@@ -1,7 +1,7 @@
 package com.ensat.schoolmanagerfx.controller;
 
-import com.ensat.schoolmanagerfx.factory.DependencyFactory;
 import com.ensat.schoolmanagerfx.service.AuthentificationService;
+import com.ensat.schoolmanagerfx.dao.UtilisateurDao;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class AuthentificationController {
 
@@ -20,11 +21,11 @@ public class AuthentificationController {
     @FXML
     private PasswordField passwordField;
 
-    private AuthentificationService authService;
+    private final AuthentificationService authService;
     private String userToken;
 
-    public void initialize() {
-        this.authService = DependencyFactory.getAuthentificationService();
+    public AuthentificationController() {
+        this.authService = new AuthentificationService();
     }
 
     @FXML
@@ -68,12 +69,6 @@ public class AuthentificationController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
             stage.setScene(new Scene(loader.load()));
-
-            Object controller = loader.getController();
-            if (controller instanceof AuthentificationController) {
-                ((AuthentificationController) controller).initialize();
-            }
-
             stage.show();
         } catch (IOException e) {
             showAlert("Erreur", "Impossible de charger la scène : " + fxmlFile);
