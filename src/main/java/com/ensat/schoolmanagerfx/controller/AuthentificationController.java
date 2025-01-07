@@ -1,6 +1,6 @@
 package com.ensat.schoolmanagerfx.controller;
 
-import com.ensat.schoolmanagerfx.entity.asset.Utilisateur;
+import com.ensat.schoolmanagerfx.entity.Utilisateur;
 import com.ensat.schoolmanagerfx.service.AuthentificationService;
 
 import java.util.Optional;

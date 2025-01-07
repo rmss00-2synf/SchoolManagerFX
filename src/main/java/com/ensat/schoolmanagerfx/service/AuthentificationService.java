@@ -1,7 +1,7 @@
 package com.ensat.schoolmanagerfx.service;
 
 import com.ensat.schoolmanagerfx.dao.UtilisateurDao;
-import com.ensat.schoolmanagerfx.entity.asset.Utilisateur;
+import com.ensat.schoolmanagerfx.entity.Utilisateur;
 
 import java.util.Optional;
 
@@ -16,11 +16,11 @@ public class AuthentificationService {
 
     // Méthode pour valider les identifiants
     public Optional<Utilisateur> authentifier(String username, String password) {
-        // Construire une requête SQL basée sur les attributs
+        // Construire une requête SQL pour chercher l'utilisateur
         String query = "SELECT * FROM Utilisateur WHERE username = '" + username + "' AND password = '" + password + "'";
 
         // Appeler findByAttribute avec la requête SQL
-        Optional<?> result = utilisateurDao.findByAttribute(Utilisateur.class, query);
+        Optional<?> result = utilisateurDao.findByAttribute(query, Utilisateur.class);
 
         // Vérifier le résultat et effectuer le casting approprié
         if (result.isPresent()) {
@@ -28,7 +28,6 @@ public class AuthentificationService {
         }
         return Optional.empty();
     }
-
 
     // Méthode pour vérifier si un utilisateur a un rôle spécifique
     public boolean verifierRole(Utilisateur utilisateur, String role) {

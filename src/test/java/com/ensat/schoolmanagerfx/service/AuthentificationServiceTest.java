@@ -1,7 +1,7 @@
 package com.ensat.schoolmanagerfx.service;
 
 import com.ensat.schoolmanagerfx.dao.UtilisateurDao;
-import com.ensat.schoolmanagerfx.entity.asset.Utilisateur;
+import com.ensat.schoolmanagerfx.entity.Utilisateur;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -23,7 +23,7 @@ class AuthentificationServiceTest {
         utilisateurSimule.setRole("admin");
 
         // Simuler le comportement du DAO
-        when(mockDao.findByAttribute(eq(Utilisateur.class), anyString()))
+        when(mockDao.findByAttribute(anyString(),eq(Utilisateur.class)))
                 .thenReturn((Optional) Optional.of(utilisateurSimule));
 
         // Instancier le service avec le mock
@@ -44,7 +44,7 @@ class AuthentificationServiceTest {
         UtilisateurDao mockDao = mock(UtilisateurDao.class);
 
         // Simuler le comportement du DAO pour un utilisateur non trouvé
-        when(mockDao.findByAttribute(Utilisateur.class, "SELECT * FROM Utilisateur WHERE username = 'wrongUser' AND password = 'wrongPassword'"))
+        when(mockDao.findByAttribute("SELECT * FROM Utilisateur WHERE username = 'wrongUser' AND password = 'wrongPassword'",Utilisateur.class))
                 .thenReturn(Optional.empty());
 
         // Instancier le service avec le mock
