@@ -1,7 +1,6 @@
 package com.ensat.schoolmanagerfx.controller;
 
 import com.ensat.schoolmanagerfx.service.AuthentificationService;
-import com.ensat.schoolmanagerfx.dao.UtilisateurDao;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 
 public class AuthentificationController {
@@ -22,10 +22,11 @@ public class AuthentificationController {
     private PasswordField passwordField;
 
     private final AuthentificationService authService;
-    private String userToken;
+    private Optional<String> userToken;
 
     public AuthentificationController() {
         this.authService = new AuthentificationService();
+        this.userToken = Optional.empty(); // Initialize userToken as empty
     }
 
     @FXML
@@ -39,9 +40,13 @@ public class AuthentificationController {
         }
 
         authService.login(username, password).ifPresentOrElse(token -> {
-            userToken = token;
-            String role = authService.getUserRole(token).orElse("UNKNOWN");
-            redirectToRoleBasedDashboard(role);
+            userToken = Optional.of(token);
+            try {
+                String role = authService.getUserRole(token).orElseThrow(() -> new RuntimeException("Role not found"));
+                redirectToRoleBasedDashboard(role);
+            } catch (Exception e) {
+                showAlert("Erreur", "Erreur lors de la récupération du rôle : " + e.getMessage());
+            }
         }, () -> {
             showAlert("Erreur d'authentification", "Nom d'utilisateur ou mot de passe incorrect.");
         });
@@ -49,13 +54,13 @@ public class AuthentificationController {
 
     @FXML
     public void handleLogout() {
-        if (userToken != null) {
-            authService.logout(userToken);
-            userToken = null;
+        userToken.ifPresent(token -> {
+            authService.logout(token);
+            userToken = Optional.empty(); // Clear the user token
 
             Stage stage = (Stage) usernameField.getScene().getWindow();
             loadScene(stage, "Login.fxml");
-        }
+        });
     }
 
     private void showAlert(String title, String content) {
@@ -79,12 +84,14 @@ public class AuthentificationController {
     private void redirectToRoleBasedDashboard(String role) {
         Stage stage = (Stage) usernameField.getScene().getWindow();
 
-        String fxmlFile = switch (role) {
-            case "ADMIN" -> "AdminDashboard.fxml";
-            case "SECRETAIRE" -> "SecretaryDashboard.fxml";
-            case "PROFESSEUR" -> "ProfessorDashboard.fxml";
-            default -> null;
-        };
+        // Map roles to their corresponding FXML files
+        Map<String, String> roleToFxmlMap = Map.of(
+                "ADMIN", "AdminDashboard.fxml",
+                "SECRETAIRE", "SecretaryDashboard.fxml",
+                "PROFESSEUR", "ProfessorDashboard.fxml"
+        );
+
+        String fxmlFile = roleToFxmlMap.get(role);
 
         if (fxmlFile != null) {
             loadScene(stage, fxmlFile);

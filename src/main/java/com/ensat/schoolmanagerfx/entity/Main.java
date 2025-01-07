@@ -29,6 +29,7 @@ public class Main {
 //        System.out.println(moduleDao.findById_professeur(5,new Module()).get());
         ProfesseurService professeurService = new ProfesseurService();
         System.out.println(professeurService.getEtudiantsByModule(1));
+
     }
 
     public static void test(Class<?> clazz) {

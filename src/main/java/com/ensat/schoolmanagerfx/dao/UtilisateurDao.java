@@ -10,13 +10,9 @@ import java.util.Optional;
 public interface UtilisateurDao extends ENSATJPA<Utilisateur, Long> {
 
     @Requete(value = "SELECT * FROM utilisateur WHERE username = ? AND password = ?")
-    Optional<Utilisateur> findCredentials(String username, String password);
+    Optional<Utilisateur> findCredentials(String query, Utilisateur utilisateur, String password, String username);
 
-    @Requete(value = "SELECT * FROM utilisateur WHERE username = ?")
-    Optional<Utilisateur> findByUsername(String username);
-
-    @Requete(value = "SELECT * FROM utilisateur WHERE role = ?")
-    List<Utilisateur> findByRole(String role);
+    Optional<String> findRoleByUsername(String username, Utilisateur utilisateur);
 }
 
 
