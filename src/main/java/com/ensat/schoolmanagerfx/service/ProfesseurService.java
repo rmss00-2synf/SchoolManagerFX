@@ -68,7 +68,7 @@ public class ProfesseurService {
                 .email(dto.getEtudiant().getEmail())
                 .date_naissance(dto.getEtudiant().getDate_naissance())
                 .id(dto.getEtudiant().getId())
-                .promation(dto.getEtudiant().getPromotion())
+                .promotion(dto.getEtudiant().getPromotion())
                 .matricule(dto.getEtudiant().getMatricule())
                 .build();
     }

@@ -34,6 +34,7 @@ public class Main {
         ModuleService moduleService = new ModuleService();
         ModuleDto moduleDto = new ModuleDto();
         System.out.println(moduleService.attribuerProfesseur(2,5));
+
     }
 
     public static void test(Class<?> clazz) {

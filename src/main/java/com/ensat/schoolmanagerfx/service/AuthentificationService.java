@@ -17,18 +17,17 @@ public class AuthentificationService {
 
     public Optional<String> login(String username, String password) {
         try {
-            // Recherche de l'utilisateur avec les identifiants
-            Optional<Utilisateur> user = utilisateurDao.findCredentials(username, password);
+            System.out.println("Attempting login for user: " + username);
+            Optional<Utilisateur> user = utilisateurDao.findCredentials("",new Utilisateur(),username, password);
+            System.out.println("User found: " + user.isPresent());
 
             if (user.isPresent()) {
-                // Génération d'un token (améliorable avec JWT pour une sécurité accrue)
                 return Optional.of(generateToken(username));
             } else {
                 return Optional.empty();
             }
         } catch (Exception e) {
-            // Gestion des exceptions
-            System.err.println("Erreur lors de la connexion : " + e.getMessage());
+            System.err.println("Error during login: " + e.getMessage());
             e.printStackTrace();
             return Optional.empty();
         }
@@ -36,9 +35,8 @@ public class AuthentificationService {
 
     public Optional<String> getUserRole(String token) {
         try {
-            // Extraction du nom d'utilisateur depuis le token
             String username = extractUsernameFromToken(token);
-            return utilisateurDao.findByUsername(username).map(Utilisateur::getRole);
+            return utilisateurDao.findRoleByUsername(username, new Utilisateur()); // Directly fetch the role
         } catch (Exception e) {
             System.err.println("Erreur lors de la récupération du rôle utilisateur : " + e.getMessage());
             e.printStackTrace();

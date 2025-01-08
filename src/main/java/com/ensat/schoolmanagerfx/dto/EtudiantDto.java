@@ -16,7 +16,7 @@ public class EtudiantDto {
         private String matricule;
         private Date date_naissance;
         private String email;
-        private int promation;
+        private int promotion;
         private String nom;
         private String prenom;
 }
