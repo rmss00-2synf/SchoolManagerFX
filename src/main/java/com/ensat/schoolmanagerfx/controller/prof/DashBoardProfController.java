@@ -98,7 +98,7 @@ public class DashBoardProfController {
     protected void navigateAbout() {
         try {
             // Charger la vue Home
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/prof/StudentProf.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/prof/StudentProf.fxml"));
             Parent homeRoot = loader.load();
 
             // Réinitialiser la zone de contenu (contentArea) uniquement

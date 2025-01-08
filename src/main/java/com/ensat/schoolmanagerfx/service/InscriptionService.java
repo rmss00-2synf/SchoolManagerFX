@@ -35,7 +35,6 @@ public class InscriptionService {
         return inscriptionDao.save(inscriptionDto);
     }
     public boolean annulerInscription(int etudiantId, int moduleId){
-
         return false;
     }
 

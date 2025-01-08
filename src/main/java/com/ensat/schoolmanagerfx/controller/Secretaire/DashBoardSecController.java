@@ -96,7 +96,7 @@ public class DashBoardSecController {
     protected void navigateAbout() {
         try {
             // Charger la vue Home
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/Secretaire/StudentSec.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Secretaire/StudentSec.fxml"));
             Parent homeRoot = loader.load();
 
             // Réinitialiser la zone de contenu (contentArea) uniquement
@@ -115,7 +115,7 @@ public class DashBoardSecController {
     protected void navigatePages() {
         try {
             // Charger la vue Home
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/Secretaire/InscriptionSec.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Secretaire/InscriptionSec.fxml"));
             Parent homeRoot = loader.load();
 
             // Réinitialiser la zone de contenu (contentArea) uniquement

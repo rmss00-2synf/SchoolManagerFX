@@ -1,5 +1,6 @@
 package com.ensat.schoolmanagerfx.controller;
 
+import com.ensat.schoolmanagerfx.controller.admin.DashBoardController;
 import com.ensat.schoolmanagerfx.service.AuthentificationService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,7 +49,7 @@ public class AuthentificationController {
                 System.out.println("Hello 3"+role);
                 redirectToRoleBasedDashboard(role);
             } catch (Exception e) {
-                showAlert("Erreur", "Erreur lors de la récupération du rôle : " + e.getMessage());
+                showAlert("Erreur", "E" + e.getMessage());
             }
         }, () -> {
             showAlert("Erreur d'authentification", "Nom d'utilisateur ou mot de passe incorrect.");
@@ -75,10 +76,11 @@ public class AuthentificationController {
 
     private void loadScene(Stage stage, String fxmlFile) {
         try {
+            System.out.println(fxmlFile);
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-
-            stage.setScene(new Scene(loader.load()));
-
+            Scene scene = new Scene(loader.load(), 320, 240);
+            System.out.println(fxmlFile);
+            stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
             showAlert("Erreur", "Impossible de charger la scène : " + fxmlFile);
@@ -91,7 +93,7 @@ public class AuthentificationController {
         System.out.println(role);
         // Map roles to their corresponding FXML files
         Map<String, String> roleToFxmlMap = Map.of(
-                "ADMIN", "AdminDashboard.fxml",
+                "ADMIN", "/views/admin/DashBoard-view.fxml",
                 "SECRETAIRE", "SecretaryDashboard.fxml",
                 "PROFESSEUR", "ProfessorDashboard.fxml"
         );

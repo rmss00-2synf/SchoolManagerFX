@@ -1,6 +1,8 @@
 package com.ensat.schoolmanagerfx.controller.admin;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -8,6 +10,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 
 
@@ -25,7 +29,7 @@ public class DashBoardController {
 
 
     private boolean isSidebarCollapsed = false; // Indique si la barre latérale est réduite
-
+    public DashBoardController() {}
     @FXML
     protected void initialize() {
         // Ajouter des icônes aux boutons
@@ -102,7 +106,7 @@ public class DashBoardController {
     protected void navigateAbout() {
         try {
             // Charger la vue Home
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/admin/Student-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/admin/Student-view.fxml"));
             Parent homeRoot = loader.load();
 
             // Réinitialiser la zone de contenu (contentArea) uniquement
@@ -122,7 +126,7 @@ public class DashBoardController {
     protected void navigatePages() {
         try {
             // Charger la vue Home
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/admin/Prof-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/admin/Prof-view.fxml"));
             Parent homeRoot = loader.load();
 
             // Réinitialiser la zone de contenu (contentArea) uniquement
@@ -142,7 +146,7 @@ public class DashBoardController {
     protected void navigatePortfolio() {
         try {
             // Charger la vue Home
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/admin/Secretaire-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/admin/Secretaire-view.fxml"));
             Parent homeRoot = loader.load();
 
             // Réinitialiser la zone de contenu (contentArea) uniquement
@@ -162,7 +166,7 @@ public class DashBoardController {
     protected void InscriHBox() {
         try {
             // Charger la vue Home
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/admin/Module-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/admin/Module-view.fxml"));
             Parent homeRoot = loader.load();
 
             // Réinitialiser la zone de contenu (contentArea) uniquement
@@ -182,7 +186,7 @@ public class DashBoardController {
     protected void navigateContact() {
         try {
             // Charger la vue Home
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/admin/Inscription-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/admin/Inscription-view.fxml"));
             Parent homeRoot = loader.load();
 
             // Réinitialiser la zone de contenu (contentArea) uniquement

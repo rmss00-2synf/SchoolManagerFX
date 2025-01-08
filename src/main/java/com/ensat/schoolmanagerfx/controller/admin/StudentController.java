@@ -15,7 +15,7 @@ public class StudentController {
     protected void showAddStudentPopup() {
         try {
             // Charger le fichier FXML pour le formulaire d'ajout
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/admin/AddStudentForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/admin/AddStudentForm.fxml"));
             Parent root = loader.load();
 
             // Créer un nouveau stage pour afficher le formulaire
