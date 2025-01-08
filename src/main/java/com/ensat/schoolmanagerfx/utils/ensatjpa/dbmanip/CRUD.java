@@ -68,10 +68,12 @@ public interface CRUD<T,PK> {
 //            throw new RuntimeException("Error creating record: " + e.getMessage(), e);
 //        }
     }
-    default boolean update(T entity) {
+    default boolean update(Object entity) {
         try {
+            boolean isJoiColumn = false;
             Class<?> clazz = entity.getClass();
             String tableName = clazz.getSimpleName().toUpperCase();
+
 
             Field[] fields = clazz.getDeclaredFields();
             StringBuilder setClause = new StringBuilder();
@@ -79,9 +81,18 @@ public interface CRUD<T,PK> {
             String idColumn = null;
 
             for (Field field : fields) {
-                if (field.isAnnotationPresent(JointureDeColonne.class)) {
+                field.setAccessible(true);
+                if (isARelationField(field) && field.isAnnotationPresent(JointureDeColonne.class)) {
                     JointureDeColonne colonne = field.getAnnotation(JointureDeColonne.class);
-                    field.setAccessible(true);
+                    if (colonne.nom().equalsIgnoreCase("id")){
+                        idColumn = colonne.nom();
+                        isJoiColumn = true;
+                    }
+
+                    update(field.get(entity));
+                }
+                else if (field.isAnnotationPresent(JointureDeColonne.class)) {
+                    JointureDeColonne colonne = field.getAnnotation(JointureDeColonne.class);
                     if (colonne.nom().equalsIgnoreCase("id")) {
                         idColumn = colonne.nom();
                     } else {
@@ -108,20 +119,51 @@ public interface CRUD<T,PK> {
 
             // Générer la requête SQL
             String sql = String.format("UPDATE %s SET %s WHERE %s = ?", tableName, setClause, idColumn);
-
+            System.out.println(sql);
             PreparedStatement statement = connection.prepareStatement(sql);
 
             int index = 1;
+            System.out.println(index);
             for (Field field : fields) {
-                field.setAccessible(true);
-                if (!field.getName().equalsIgnoreCase("id")) {
-                    statement.setObject(index++, field.get(entity)); // Récupérer la valeur du champ
+                if (!field.isAnnotationPresent(Relation.class) || field.isAnnotationPresent(JointureDeColonne.class)) {
+                    field.setAccessible(true);
+                    if(field.isAnnotationPresent(JointureDeColonne.class)) {
+                        if (!field.isAnnotationPresent(Relation.class)) {
+                        JointureDeColonne colonne = field.getAnnotation(JointureDeColonne.class);
+                        Object value = field.get(entity);
+                        Field otherField = value.getClass().getDeclaredField(colonne.nom());
+                        otherField.setAccessible(true);
+                        statement.setObject(index++, otherField.get(value));
+                    }
+
+                    }else if (!field.getName().equalsIgnoreCase("id")) {
+                        System.out.println(field.getName());
+                        field.get(entity).getClass();
+                        statement.setObject(index++, field.get(entity)); // Récupérer la valeur du champ
+                    }
+                    System.out.println(index);
                 }
+
             }
 
-            Field idField = clazz.getDeclaredField(idColumn);
-            idField.setAccessible(true);
-            statement.setObject(index, idField.get(entity));
+            if (isJoiColumn){
+                for (Field field : fields) {
+                    field.setAccessible(true);
+                    if(field.isAnnotationPresent(JointureDeColonne.class)) {
+                        JointureDeColonne colonne = field.getAnnotation(JointureDeColonne.class);
+                        Object value = field.get(entity);
+                        Field otherField = value.getClass().getDeclaredField(colonne.nom());
+                        otherField.setAccessible(true);
+                        statement.setObject(index, otherField.get(value));
+
+                    }
+                }
+            }else {
+                Field idField = clazz.getDeclaredField(idColumn);
+                idField.setAccessible(true);
+                statement.setObject(index, idField.get(entity));
+            }
+
 
             statement.executeUpdate();
             statement.close();
@@ -175,7 +217,10 @@ public interface CRUD<T,PK> {
             statement.setObject(1, id);
             ResultSet rs = statement.executeQuery();
             Optional<?> opt = mappingResultSetObject(entity, rs);
-            return (Optional<T>) opt;
+            assert opt.orElse(null) != null;
+            List<Object> objects = (List<Object>)opt.get();
+            Optional<T> opt2 = (Optional<T>) Optional.of(objects.getFirst());
+            return  opt2;
         } catch (SQLException e) {
             throw new RuntimeException("Error retrieving record: " + e.getMessage(), e);
         }
