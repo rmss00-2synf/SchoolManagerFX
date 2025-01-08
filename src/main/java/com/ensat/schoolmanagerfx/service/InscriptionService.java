@@ -35,7 +35,11 @@ public class InscriptionService {
         return inscriptionDao.save(inscriptionDto);
     }
     public boolean annulerInscription(int etudiantId, int moduleId){
-        return false;
+        Inscription inscription = inscriptionDao.findWithUserIdModuleId("",new Inscription(),etudiantId,moduleId).orElse(null).getFirst();
+        if(inscription == null){
+            return false;
+        }
+        return inscriptionDao.delete(inscription);
     }
 
     private Inscription convertDtoToInscription(InscriptionDto inscriptionDto){
@@ -52,8 +56,4 @@ public class InscriptionService {
                 .build();
     }
 
-    public static void main(String[] args) {
-        InscriptionService inscriptionService = new InscriptionService();
-        System.out.println(inscriptionService.inscrireEtudiant(20, 1));
-    }
 }
