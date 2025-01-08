@@ -42,7 +42,7 @@ public class InscriptionService {
         return inscriptionDao.delete(inscription);
     }
 
-    private Inscription convertDtoToInscription(InscriptionDto inscriptionDto){
+    public Inscription convertDtoToInscription(InscriptionDto inscriptionDto){
         Long idEtd = (long) inscriptionDto.getId_etudiant();
         Long idModule = (long) inscriptionDto.getId_module();
         System.out.println(idEtd+"ID ============================== ID"+idModule);
@@ -53,6 +53,15 @@ public class InscriptionService {
                 .date_inscription(inscriptionDto.getDate_inscription())
                 .etudiant(etudiant)
                 .module(module)
+                .build();
+    }
+
+    public InscriptionDto inscriptionDto(Inscription inscription){
+        return InscriptionDto.builder()
+                .id(inscription.getId())
+                .date_inscription(inscription.getDate_inscription())
+                .id_etudiant(inscription.getEtudiant().getId())
+                .id_module(inscription.getModule().getId())
                 .build();
     }
 

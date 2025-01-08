@@ -5,7 +5,9 @@ import com.ensat.schoolmanagerfx.dao.ModuleDao;
 import com.ensat.schoolmanagerfx.dao.ProfesseurDao;
 import com.ensat.schoolmanagerfx.dto.EtudiantDto;
 import com.ensat.schoolmanagerfx.dto.ModuleDto;
+import com.ensat.schoolmanagerfx.dto.ProfesseurDto;
 import com.ensat.schoolmanagerfx.entity.Inscription;
+import com.ensat.schoolmanagerfx.entity.Professeur;
 import com.ensat.schoolmanagerfx.utils.ensatjpa.proxy.Inject;
 import com.ensat.schoolmanagerfx.entity.Module;
 
@@ -61,7 +63,7 @@ public class ProfesseurService {
 
     }
 
-    private EtudiantDto convertToDto(Inscription dto){
+    public EtudiantDto convertToDto(Inscription dto){
         return EtudiantDto.builder()
                 .nom(dto.getEtudiant().getNom())
                 .prenom(dto.getEtudiant().getPrenom())
@@ -70,6 +72,17 @@ public class ProfesseurService {
                 .id(dto.getEtudiant().getId())
                 .promotion(dto.getEtudiant().getPromotion())
                 .matricule(dto.getEtudiant().getMatricule())
+                .build();
+    }
+
+    public ProfesseurDto convertToDto(Professeur professeur){
+        return ProfesseurDto.builder()
+                .username(professeur.getUtilisateur().getUsername())
+                .role(professeur.getUtilisateur().getRole())
+                .specialite(professeur.getSpecialite())
+                .prenom(professeur.getUtilisateur().getPersonne().getPrenom())
+                .id(professeur.getUtilisateur().getPersonne().getId())
+                .nom(professeur.getUtilisateur().getPersonne().getNom())
                 .build();
     }
 

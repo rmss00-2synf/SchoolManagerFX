@@ -13,6 +13,9 @@ module com.ensat.schoolmanagerfx {
     requires static lombok;
     requires java.sql;
     requires java.validation;
+    requires kernel;
+    requires layout;
+    requires io;
 
     // Open controller package for FXML reflection
     opens com.ensat.schoolmanagerfx.controller to javafx.fxml;

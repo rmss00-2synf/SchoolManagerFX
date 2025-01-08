@@ -34,11 +34,11 @@ public class EtudiantService {
         return etudiantDtos;
     }
 
-    private EtudiantDto convertToDto(Etudiant etudiant) {
+    public EtudiantDto convertToDto(Etudiant etudiant) {
         return EtudiantDto.builder()
-                .id(etudiant.getId())
-                .nom(etudiant.getNom())
-                .prenom(etudiant.getPrenom())
+                .id(etudiant.getPersonne().getId())
+                .nom(etudiant.getPersonne().getNom())
+                .prenom(etudiant.getPersonne().getPrenom())
                 .email(etudiant.getEmail())
                 .date_naissance(etudiant.getDate_naissance())
                 .promotion(etudiant.getPromotion())
