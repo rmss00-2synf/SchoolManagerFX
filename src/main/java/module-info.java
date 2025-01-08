@@ -20,4 +20,8 @@ module com.ensat.schoolmanagerfx {
 
     // Export main package
     exports com.ensat.schoolmanagerfx;
+    opens com.ensat.schoolmanagerfx.controller.admin to javafx.fxml;
+    opens com.ensat.schoolmanagerfx.controller.Secretaire to javafx.fxml;
+    opens com.ensat.schoolmanagerfx.controller.prof to javafx.fxml;
+
 }

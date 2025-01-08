@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.ensat.schoolmanagerfx.controller.admin.DashBoardController">
+    <!-- Sidebar -->
+    <VBox fx:id="sidebar" spacing="10" style="-fx-background-color: #7386D5; -fx-pref-width: 250; -fx-padding: 10;">
+        <Label text="Administrateur" style="-fx-text-fill: white; -fx-font-size: 18;" />
+        <Button text=">>" style="-fx-background-color: gray; -fx-text-fill: white; -fx-background-radius: 30" onAction="#toggleSidebar" />
+
+        <HBox fx:id="homeHBox" spacing="10">
+            <Button text="Dash Board" style="-fx-background-color: transparent; -fx-text-fill: white;" onAction="#navigateHome" />
+        </HBox>
+
+        <HBox fx:id="aboutHBox" spacing="10">
+            <Button text="Students" style="-fx-background-color: transparent; -fx-text-fill: white;" onAction="#navigateAbout" />
+        </HBox>
+
+        <HBox fx:id="pagesHBox" spacing="10">
+            <Button text="Profs" style="-fx-background-color: transparent; -fx-text-fill: white;" onAction="#navigatePages" />
+        </HBox>
+
+        <HBox fx:id="portfolioHBox" spacing="10">
+            <Button text="Secretaire" style="-fx-background-color: transparent; -fx-text-fill: white;" onAction="#navigatePortfolio" />
+        </HBox>
+
+        <HBox fx:id="contactHBox" spacing="10">
+            <Button text="Modules" style="-fx-background-color: transparent; -fx-text-fill: white;" onAction="#navigateContact" />
+        </HBox>
+
+        <HBox fx:id="InscriHBox" spacing="10">
+            <Button text="Inscription" style="-fx-background-color: transparent; -fx-text-fill: white;" onAction="#InscriHBox" />
+        </HBox>
+    </VBox>
+
+    <!-- Main Content -->
+    <VBox fx:id="mainContent" spacing="20" style="-fx-padding: 20;" HBox.hgrow="ALWAYS">
+<!--        <Label fx:id="contentTitle" text="Welcome to the Dashboard" style="-fx-font-size: 24;" />-->
+        <VBox fx:id="contentArea" spacing="20" />
+    </VBox>
+</HBox>
+
