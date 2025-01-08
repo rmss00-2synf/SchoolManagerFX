@@ -10,20 +10,15 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
+@Builder
 public class Inscription {
 
 	private int id;
 	private Date date_inscription;
-	private int id_etudiant;
-	private int id_module;
-
 	@Relation(type = RelationType.ONE_TO_ONE)
 	@JointureDeColonne(nom = "id_etudiant")
 	private Etudiant etudiant;
-
 	@Relation(type = RelationType.MANY_TO_ONE)
 	@JointureDeColonne(nom = "id_module")
 	private Module module;

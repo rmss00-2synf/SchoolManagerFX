@@ -7,9 +7,7 @@ import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
 @Builder
 public class EtudiantDto {
         private int id;

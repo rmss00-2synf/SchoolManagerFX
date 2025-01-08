@@ -64,10 +64,4 @@ public class AuthentificationService {
         return token.split("_")[2];
     }
 
-    public static void main(String[] args) {
-        String token = new AuthentificationService().login("omar.admin", "admin123").orElse(null);
-        System.out.println(token);
-        new AuthentificationService().logout(token);
-        System.out.println(new AuthentificationService().getUserRole(token).orElse(null));
-    }
 }

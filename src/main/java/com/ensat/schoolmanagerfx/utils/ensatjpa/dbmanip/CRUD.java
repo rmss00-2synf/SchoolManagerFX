@@ -20,7 +20,7 @@ public interface CRUD<T,PK> {
 
     Connection connection = DatabaseConnection.getInstance().getConnection();
 
-    default boolean save(T entity) {
+    default boolean save(Object entity) {
         return mappingObjectResultSet(entity);
 //        try {
 //            Class<?> clazz = entity.getClass();
@@ -72,18 +72,7 @@ public interface CRUD<T,PK> {
         try {
             boolean isJoiColumn = false;
             Class<?> clazz = entity.getClass();
-            String original = "Bonjour tout le monde";
-            String suffix = "monde";
-            String tableName;
-
-            String query = clazz.getSimpleName().toUpperCase();
-            if (query.endsWith("DTO")) {
-                tableName = query.substring(0, query.length() - 3);
-            }
-            else tableName = query;
-
-
-
+            String tableName = tableName(entity.getClass().getSimpleName());
             Field[] fields = clazz.getDeclaredFields();
             StringBuilder setClause = new StringBuilder();
             // Identifier la clé primaire (supposons qu'elle s'appelle "id")
@@ -186,7 +175,7 @@ public interface CRUD<T,PK> {
     default boolean delete(T entity) {
         try {
             Class<?> clazz = entity.getClass();
-            String tableName = clazz.getSimpleName().toUpperCase();
+            String tableName = tableName(entity.getClass().getSimpleName());
 
             Field idField = null;
             for (Field field : clazz.getDeclaredFields()) {
@@ -302,7 +291,7 @@ public interface CRUD<T,PK> {
     default boolean mappingObjectResultSet(Object instance) {
         try {
             Class<?> clazz = instance.getClass();
-            String tableName = clazz.getSimpleName().toUpperCase();
+            String tableName = tableName(clazz.getSimpleName().toUpperCase());
             Field[] fields = clazz.getDeclaredFields();
             StringBuilder columns = new StringBuilder();
             StringBuilder placeholders = new StringBuilder();
@@ -370,6 +359,14 @@ public interface CRUD<T,PK> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    default String tableName(String entity) {
+
+        if (entity.toUpperCase().endsWith("DTO")) {
+            return  entity.substring(0, entity.length() - 3);
+        }
+        return entity;
     }
 }
 
