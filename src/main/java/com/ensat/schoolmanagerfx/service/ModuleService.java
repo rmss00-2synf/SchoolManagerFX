@@ -30,6 +30,7 @@ public class ModuleService {
             Module module = moduleDao.findById(Module.class, (long) moduleId).orElse(null);
             if (module != null){
                 module.setProfesseur(professeur);
+                System.out.println(module.getProfesseur().getUtilisateur().getPersonne().getId());
                 ModuleDto moduleDto = convertModuleToDto(module);
                 return moduleDao.update(moduleDto);
             }
@@ -57,7 +58,7 @@ public class ModuleService {
         return ModuleDto.builder()
                 .nom_module(module.getNom_module())
                 .code_module(module.getCode_module())
-                .id_professeur(module.getProfesseur().getId())
+                .id_professeur(module.getProfesseur().getUtilisateur().getPersonne().getId())
                 .id(module.getId())
                 .build();
     }

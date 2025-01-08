@@ -72,7 +72,16 @@ public interface CRUD<T,PK> {
         try {
             boolean isJoiColumn = false;
             Class<?> clazz = entity.getClass();
-            String tableName = clazz.getSimpleName().toUpperCase();
+            String original = "Bonjour tout le monde";
+            String suffix = "monde";
+            String tableName;
+
+            String query = clazz.getSimpleName().toUpperCase();
+            if (query.endsWith("DTO")) {
+                tableName = query.substring(0, query.length() - 3);
+            }
+            else tableName = query;
+
 
 
             Field[] fields = clazz.getDeclaredFields();
