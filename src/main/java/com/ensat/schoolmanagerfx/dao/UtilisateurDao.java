@@ -11,8 +11,7 @@ public interface UtilisateurDao extends ENSATJPA<Utilisateur, Long> {
 
     @Requete(value = "SELECT * FROM utilisateur WHERE username = ? AND password = ?")
     Optional<Utilisateur> findCredentials(String query, Utilisateur utilisateur, String password, String username);
-
-    Optional<String> findRoleByUsername(String username, Utilisateur utilisateur);
+    Optional<List<Utilisateur>> findByUsername(String username, Utilisateur utilisateur);
 }
 
 

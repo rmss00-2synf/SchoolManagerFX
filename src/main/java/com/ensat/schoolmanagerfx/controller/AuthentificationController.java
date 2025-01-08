@@ -41,8 +41,11 @@ public class AuthentificationController {
 
         authService.login(username, password).ifPresentOrElse(token -> {
             userToken = Optional.of(token);
+            System.out.println("Hello 1"+userToken.get());
             try {
-                String role = authService.getUserRole(token).orElseThrow(() -> new RuntimeException("Role not found"));
+                System.out.println("Hello 2"+userToken.get());
+                String role = authService.getUserRole(token).orElse(null);
+                System.out.println("Hello 3"+role);
                 redirectToRoleBasedDashboard(role);
             } catch (Exception e) {
                 showAlert("Erreur", "Erreur lors de la récupération du rôle : " + e.getMessage());
@@ -73,7 +76,9 @@ public class AuthentificationController {
     private void loadScene(Stage stage, String fxmlFile) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+
             stage.setScene(new Scene(loader.load()));
+
             stage.show();
         } catch (IOException e) {
             showAlert("Erreur", "Impossible de charger la scène : " + fxmlFile);
@@ -83,7 +88,7 @@ public class AuthentificationController {
 
     private void redirectToRoleBasedDashboard(String role) {
         Stage stage = (Stage) usernameField.getScene().getWindow();
-
+        System.out.println(role);
         // Map roles to their corresponding FXML files
         Map<String, String> roleToFxmlMap = Map.of(
                 "ADMIN", "AdminDashboard.fxml",
@@ -92,7 +97,7 @@ public class AuthentificationController {
         );
 
         String fxmlFile = roleToFxmlMap.get(role);
-
+        System.out.println(fxmlFile);
         if (fxmlFile != null) {
             loadScene(stage, fxmlFile);
         } else {
