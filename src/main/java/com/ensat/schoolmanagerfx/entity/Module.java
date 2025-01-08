@@ -10,14 +10,12 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
+@Data
+@Builder
 public class Module {
 	private int id;
 	private String nom_module;
 	private String code_module;
-	private int id_professeur;
 	@Relation(type = RelationType.ONE_TO_MANY)
 	private Collection<Inscription> inscription;
 	@Relation(type = RelationType.MANY_TO_ONE)

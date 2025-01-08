@@ -53,7 +53,7 @@ public class ProfesseurService {
 
     private ModuleDto convertToDto(Module module){
         return ModuleDto.builder()
-                .id_professeur(module.getId_professeur())
+                .id_professeur(module.getProfesseur().getId())
                 .id(module.getId())
                 .code_module(module.getCode_module())
                 .nom_module(module.getNom_module())
@@ -68,7 +68,7 @@ public class ProfesseurService {
                 .email(dto.getEtudiant().getEmail())
                 .date_naissance(dto.getEtudiant().getDate_naissance())
                 .id(dto.getEtudiant().getId())
-                .promation(dto.getEtudiant().getPromotion())
+                .promotion(dto.getEtudiant().getPromotion())
                 .matricule(dto.getEtudiant().getMatricule())
                 .build();
     }

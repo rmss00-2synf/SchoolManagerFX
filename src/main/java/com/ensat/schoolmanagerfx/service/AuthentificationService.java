@@ -4,6 +4,7 @@ import com.ensat.schoolmanagerfx.dao.UtilisateurDao;
 import com.ensat.schoolmanagerfx.entity.Utilisateur;
 import com.ensat.schoolmanagerfx.utils.ensatjpa.proxy.Inject;
 
+import java.util.List;
 import java.util.Optional;
 
 public class AuthentificationService {
@@ -17,18 +18,17 @@ public class AuthentificationService {
 
     public Optional<String> login(String username, String password) {
         try {
-            // Recherche de l'utilisateur avec les identifiants
-            Optional<Utilisateur> user = utilisateurDao.findCredentials(username, password);
+            System.out.println("Attempting login for user: " + username);
+            Optional<Utilisateur> user = utilisateurDao.findCredentials("",new Utilisateur(),username, password);
+            System.out.println("User found: " + user.isPresent());
 
             if (user.isPresent()) {
-                // Génération d'un token (améliorable avec JWT pour une sécurité accrue)
                 return Optional.of(generateToken(username));
             } else {
                 return Optional.empty();
             }
         } catch (Exception e) {
-            // Gestion des exceptions
-            System.err.println("Erreur lors de la connexion : " + e.getMessage());
+            System.err.println("Error during login: " + e.getMessage());
             e.printStackTrace();
             return Optional.empty();
         }
@@ -36,9 +36,12 @@ public class AuthentificationService {
 
     public Optional<String> getUserRole(String token) {
         try {
-            // Extraction du nom d'utilisateur depuis le token
             String username = extractUsernameFromToken(token);
-            return utilisateurDao.findByUsername(username).map(Utilisateur::getRole);
+            List<Utilisateur> objects =utilisateurDao.findByUsername(username, new Utilisateur()).orElse(null);
+            if (objects != null && !objects.isEmpty()) {
+                return Optional.of(objects.getFirst().getRole().toUpperCase());
+            }
+            return Optional.empty(); // Directly fetch the role
         } catch (Exception e) {
             System.err.println("Erreur lors de la récupération du rôle utilisateur : " + e.getMessage());
             e.printStackTrace();
@@ -59,5 +62,12 @@ public class AuthentificationService {
     private String extractUsernameFromToken(String token) {
         // Extraction simplifiée du nom d'utilisateur
         return token.split("_")[2];
+    }
+
+    public static void main(String[] args) {
+        String token = new AuthentificationService().login("omar.admin", "admin123").orElse(null);
+        System.out.println(token);
+        new AuthentificationService().logout(token);
+        System.out.println(new AuthentificationService().getUserRole(token).orElse(null));
     }
 }
