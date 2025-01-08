@@ -6,10 +6,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.ensat.schoolmanagerfx.controller.DashBoardController">
+<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.ensat.schoolmanagerfx.controller.admin.DashBoardController">
     <!-- Sidebar -->
     <VBox fx:id="sidebar" spacing="10" style="-fx-background-color: #7386D5; -fx-pref-width: 250; -fx-padding: 10;">
-        <Label text="Bootstrap Sidebar" style="-fx-text-fill: white; -fx-font-size: 18;" />
+        <Label text="Administrateur" style="-fx-text-fill: white; -fx-font-size: 18;" />
         <Button text=">>" style="-fx-background-color: gray; -fx-text-fill: white; -fx-background-radius: 30" onAction="#toggleSidebar" />
 
         <HBox fx:id="homeHBox" spacing="10">

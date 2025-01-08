@@ -10,28 +10,54 @@ public class AuthentificationService {
 
     private final UtilisateurDao utilisateurDao;
 
-    // Injectez le DAO via le constructeur
+    // Injection via init
     public AuthentificationService() {
         this.utilisateurDao = Inject.init(UtilisateurDao.class);
     }
 
-    // Méthode pour valider les identifiants
-    public Optional<Utilisateur> authentifier(String username, String password) {
-        // Construire une requête SQL pour chercher l'utilisateur
-        String query = "SELECT * FROM Utilisateur WHERE username = '" + username + "' AND password = '" + password + "'";
+    public Optional<String> login(String username, String password) {
+        try {
+            // Recherche de l'utilisateur avec les identifiants
+            Optional<Utilisateur> user = utilisateurDao.findCredentials(username, password);
 
-        // Appeler findByAttribute avec la requête SQL
-//        Optional<?> result = utilisateurDao.findByAttribute(query, Utilisateur.class);
-
-        // Vérifier le résultat et effectuer le casting approprié
-//        if (result.isPresent()) {
-//            return Optional.of((Utilisateur) result.get());
-//        }
-        return Optional.empty();
+            if (user.isPresent()) {
+                // Génération d'un token (améliorable avec JWT pour une sécurité accrue)
+                return Optional.of(generateToken(username));
+            } else {
+                return Optional.empty();
+            }
+        } catch (Exception e) {
+            // Gestion des exceptions
+            System.err.println("Erreur lors de la connexion : " + e.getMessage());
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
-    // Méthode pour vérifier si un utilisateur a un rôle spécifique
-    public boolean verifierRole(Utilisateur utilisateur, String role) {
-        return utilisateur.getRole() != null && utilisateur.getRole().equals(role);
+    public Optional<String> getUserRole(String token) {
+        try {
+            // Extraction du nom d'utilisateur depuis le token
+            String username = extractUsernameFromToken(token);
+            return utilisateurDao.findByUsername(username).map(Utilisateur::getRole);
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la récupération du rôle utilisateur : " + e.getMessage());
+            e.printStackTrace();
+            return Optional.empty();
+        }
+    }
+
+    public void logout(String token) {
+        // Implémentation simplifiée de la déconnexion
+        System.out.println("Utilisateur déconnecté : " + extractUsernameFromToken(token));
+    }
+
+    private String generateToken(String username) {
+        // Génération simplifiée d'un token
+        return "USER_TOKEN_" + username + "_" + System.currentTimeMillis();
+    }
+
+    private String extractUsernameFromToken(String token) {
+        // Extraction simplifiée du nom d'utilisateur
+        return token.split("_")[2];
     }
 }

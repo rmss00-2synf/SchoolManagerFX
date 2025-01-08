@@ -14,8 +14,14 @@ module com.ensat.schoolmanagerfx {
     requires java.sql;
     requires java.validation;
 
-    opens com.ensat.schoolmanagerfx to javafx.fxml;
-    exports com.ensat.schoolmanagerfx;
-    exports com.ensat.schoolmanagerfx.controller;
+    // Open controller package for FXML reflection
     opens com.ensat.schoolmanagerfx.controller to javafx.fxml;
+    opens com.ensat.schoolmanagerfx to javafx.fxml;
+
+    // Export main package
+    exports com.ensat.schoolmanagerfx;
+    opens com.ensat.schoolmanagerfx.controller.admin to javafx.fxml;
+    opens com.ensat.schoolmanagerfx.controller.Secretaire to javafx.fxml;
+    opens com.ensat.schoolmanagerfx.controller.prof to javafx.fxml;
+
 }

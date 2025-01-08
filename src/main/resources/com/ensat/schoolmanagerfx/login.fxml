@@ -4,17 +4,15 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" stylesheets="@styles.css" styleClass="root">
-    <!-- Header -->
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="@styles.css" styleClass="root"
+            fx:controller="com.ensat.schoolmanagerfx.controller.AuthentificationController">
     <top>
         <VBox alignment="CENTER" styleClass="header">
-            <!-- Logo -->
             <ImageView fitWidth="80" fitHeight="80" pickOnBounds="true" preserveRatio="true" styleClass="logo"/>
             <Label text="EnsaT SchoolManagerFX" styleClass="header-text"/>
         </VBox>
     </top>
 
-    <!-- Center Content -->
     <center>
         <StackPane>
             <VBox alignment="CENTER" spacing="15" styleClass="form-container">
@@ -24,18 +22,18 @@
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <ImageView fitWidth="20" fitHeight="20" pickOnBounds="true" preserveRatio="true"
                                styleClass="iconUser" fx:id="usernameIcon" />
-                    <TextField promptText="Username" styleClass="form-field"/>
+                    <TextField fx:id="usernameField" promptText="Username" styleClass="form-field"/>
                 </HBox>
 
                 <!-- Password Field -->
                 <HBox spacing="10" alignment="CENTER_LEFT">
                     <ImageView fitWidth="20" fitHeight="20" pickOnBounds="true" preserveRatio="true"
                                styleClass="icon" fx:id="passwordIcon"/>
-                    <PasswordField promptText="Password" styleClass="form-field"/>
+                    <PasswordField fx:id="passwordField" promptText="Password" styleClass="form-field"/>
                 </HBox>
 
                 <!-- Login Button -->
-                <Button text="Login" styleClass="button button-primary"/>
+                <Button text="Login" styleClass="button button-primary" onAction="#handleLogin"/>
 
                 <!-- Signup Link -->
                 <HBox alignment="CENTER" spacing="5">

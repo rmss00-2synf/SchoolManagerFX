@@ -1,4 +1,4 @@
-package com.ensat.schoolmanagerfx.controller;
+package com.ensat.schoolmanagerfx.controller.Secretaire;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,13 +9,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class StudentController {
+public class StudentSecController {
 
     @FXML
     protected void showAddStudentPopup() {
         try {
             // Charger le fichier FXML pour le formulaire d'ajout
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/AddStudentForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ensat/schoolmanagerfx/Secretaire/AddStudentSec.fxml"));
             Parent root = loader.load();
 
             // Créer un nouveau stage pour afficher le formulaire

@@ -1,4 +1,4 @@
-package com.ensat.schoolmanagerfx.controller;
+package com.ensat.schoolmanagerfx.controller.admin;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
