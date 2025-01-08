@@ -22,12 +22,10 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.UnitValue;
 
 import java.lang.reflect.Field;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class PdfService {
     private final EtudiantDao etudiantDao;
@@ -49,7 +47,6 @@ public class PdfService {
 
         switch (entity.toUpperCase()) {
             case "ETUDIANT": List<Etudiant> etudiants = (List<Etudiant>) etudiantDao.findAll(Etudiant.class);
-//                String dest = "src/main/resources/pdf/etd/"+now.getNano()+"AdvancedExample.pdf";
             List<EtudiantDto> etudiantDtos = new ArrayList<>();
             for (Etudiant etudiant: etudiants){
                 etudiantDtos.add(etudiantService.convertToDto(etudiant));
@@ -232,78 +229,4 @@ public class PdfService {
         System.out.println(pdfService.genereLaListe("INSCRIPTION"));
     }
 
-    private boolean creerLePdf(String nom, List<?> objects){
-        LocalTime now = LocalTime.now();
-        String dest = "src/main/resources/pdf/"+now.getNano()+"AdvancedExample.pdf";
-        List<?> list;
-        try {
-            // Initialiser le PDFWriter et le document
-            PdfWriter writer = new PdfWriter(dest);
-            PdfDocument pdfDoc = new PdfDocument(writer);
-            Document document = new Document(pdfDoc);
-
-            // Ajouter une image
-            String imagePath = "src/main/resources/views/ensat.jpeg"; // Chemin de votre image
-            ImageData imageData = ImageDataFactory.create(imagePath);
-            Image image = new Image(imageData).scaleToFit(100, 100);
-            document.add(image);
-
-            // Ajouter un titre
-            document.add(new Paragraph("RAPPORT DES "+nom+"S AU SAINT DE L'ECOLE")
-                    .setFontSize(20)
-                    .setBold()
-                    .setTextAlignment(com.itextpdf.layout.property.TextAlignment.CENTER));
-            System.out.println("C'est bon encore");
-
-
-            // Ajouter un tableau
-            Field[] fields = objects.getFirst().getClass().getDeclaredFields();
-            float[] floats = new float[fields.length];
-            Arrays.fill(floats, 1);
-
-            Table table = new Table(UnitValue.createPercentArray(floats))
-                    .setWidth(UnitValue.createPercentValue(100));
-
-            // En-tête du tableau
-
-
-
-            for (Field field : fields) {
-                table.addHeaderCell(new Cell().add(new Paragraph(field.getName().toUpperCase()).setBold()));
-            }
-//            if (Objects.equals(nom, "INSCRIPTION")){
-//                list = (List<InscriptionDto>)objects;
-//                for (InscriptionDto inscriptionDto: list){
-//
-//                }
-//            }else if (Objects.equals(nom, "ETUDIANT")){
-//                list = new ArrayList<Etudiant>();
-//            }else if (Objects.equals(nom, "PROFESSEUR")){
-//                list = new ArrayList<Professeur>();
-//            }
-            for(Object object : objects){
-                Field[] fields1 = object.getClass().getDeclaredFields();
-                for (Field field : fields1) {
-                    field.setAccessible(true);
-                    table.addCell(field.get(object).toString());
-                }
-            }
-//            // Contenu du tableau
-//
-//            table.addCell("Article A");
-//            table.addCell("10");
-//            table.addCell("2");
-//            table.addCell("Article B");
-//            table.addCell("20");
-
-            document.add(table);
-
-            // Fermer le document
-            document.close();
-            System.out.println("PDF généré avec succès : " + dest);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
 }

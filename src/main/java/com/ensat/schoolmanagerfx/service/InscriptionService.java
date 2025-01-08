@@ -3,14 +3,12 @@ package com.ensat.schoolmanagerfx.service;
 import com.ensat.schoolmanagerfx.dao.EtudiantDao;
 import com.ensat.schoolmanagerfx.dao.InscriptionDao;
 import com.ensat.schoolmanagerfx.dao.ModuleDao;
-import com.ensat.schoolmanagerfx.dto.EtudiantDto;
 import com.ensat.schoolmanagerfx.dto.InscriptionDto;
 import com.ensat.schoolmanagerfx.entity.Etudiant;
 import com.ensat.schoolmanagerfx.entity.Inscription;
 import com.ensat.schoolmanagerfx.entity.Module;
 import com.ensat.schoolmanagerfx.utils.ensatjpa.proxy.Inject;
 
-import java.util.Date;
 
 public class InscriptionService {
 
@@ -60,7 +58,7 @@ public class InscriptionService {
         return InscriptionDto.builder()
                 .id(inscription.getId())
                 .date_inscription(inscription.getDate_inscription())
-                .id_etudiant(inscription.getEtudiant().getId())
+                .id_etudiant(inscription.getEtudiant().getPersonne().getId())
                 .id_module(inscription.getModule().getId())
                 .build();
     }

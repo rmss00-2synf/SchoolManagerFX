@@ -7,7 +7,6 @@ import com.ensat.schoolmanagerfx.utils.ensatjpa.proxy.Inject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class EtudiantService {
     private final EtudiantDao etudiantDao;
