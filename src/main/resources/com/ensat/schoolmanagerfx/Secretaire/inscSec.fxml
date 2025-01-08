@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ensat.schoolmanagerfx.controller.Secretaire.InscSecControllor" spacing="10" style="-fx-padding: 20;">
+    <!-- Titre principal -->
+    <Label text="Gestion des étudiants" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-alignment: center;" />
+
+    <!-- Barre de recherche et bouton -->
+
+    <HBox spacing="10">
+        <HBox spacing="10" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+            <TextField fx:id="searchField" promptText="Search by ID, name..." style="-fx-pref-width: 300;" />
+            <Button text="Recherche" fx:id="searchButton" style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-weight: bold;" />
+        </HBox>
+<!--        <HBox alignment="CENTER_RIGHT">-->
+<!--            <Button text="Ajouter Étudiant" fx:id="addStudentButton" style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-weight: bold;" onAction="#showAddStudentPopup"/>-->
+<!--        </HBox>-->
+    </HBox>
+
+    <!-- TableView -->
+    <TableView fx:id="tableView" style="-fx-padding: 10;">
+        <columns>
+            <TableColumn text="ID" prefWidth="50"/>
+            <TableColumn text="Nom" prefWidth="150"/>
+            <TableColumn text="Prenom" prefWidth="100"/>
+            <TableColumn text="Email" prefWidth="150"/>
+            <TableColumn text="Date naissance" prefWidth="200"/>
+            <TableColumn text="Promotion" prefWidth="100"/>
+        </columns>
+    </TableView>
+</VBox>

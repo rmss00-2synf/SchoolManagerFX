@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ensat.schoolmanagerfx.controller.prof.EtudiantProfController" spacing="10" style="-fx-padding: 20;">
+    <!-- Barre de recherche -->
+    <HBox spacing="10">
+        <TextField fx:id="searchField" promptText="Search by order#, name..." style="-fx-pref-width: 300;"/>
+    </HBox>
+
+    <!-- TableView -->
+    <TableView fx:id="tableView" style="-fx-padding: 10;">
+        <columns>
+            <TableColumn text="ID" prefWidth="50"/>
+            <TableColumn text="Nom" prefWidth="150"/>
+            <TableColumn text="Prenom" prefWidth="100"/>
+            <TableColumn text="email" prefWidth="150"/>
+            <TableColumn text="Date naissance" prefWidth="200"/>
+            <TableColumn text="promotion" prefWidth="100"/>
+        </columns>
+    </TableView>
+</VBox>

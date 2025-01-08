@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ensat.schoolmanagerfx.controller.admin.AddStudentController" spacing="10" style="-fx-padding: 20;">
+    <Label text="Ajouter Étudiant" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+    <!-- Formulaire -->
+    <TextField fx:id="nomField" promptText="Nom" />
+    <TextField fx:id="prenomField" promptText="Prenom" />
+    <TextField fx:id="emailField" promptText="Email" />
+    <TextField fx:id="dateNaissanceField" promptText="Date de Naissance (yyyy-MM-dd)" />
+    <TextField fx:id="promotionField" promptText="Promotion" />
+
+    <!-- Boutons -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Annuler" onAction="#closePopup" />
+        <Button text="Ajouter" style="-fx-background-color: #007bff; -fx-text-fill: white;" onAction="#addStudent" />
+    </HBox>
+</VBox>
