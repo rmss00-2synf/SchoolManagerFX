@@ -22,51 +22,6 @@ public interface CRUD<T,PK> {
 
     default boolean save(Object entity) {
         return mappingObjectResultSet(entity);
-//        try {
-//            Class<?> clazz = entity.getClass();
-//            String tableName = clazz.getSimpleName().toUpperCase();
-//            Field[] fields = clazz.getDeclaredFields();
-//            StringBuilder columns = new StringBuilder();
-//            StringBuilder placeholders = new StringBuilder();
-//            for (Field field : fields) {
-//                if (isARelationField(field) && field.isAnnotationPresent(JointureDeColonne.class)){
-//
-//                }
-//                if (field.isAnnotationPresent(JointureDeColonne.class)) {
-//                    JointureDeColonne colonne = field.getAnnotation(JointureDeColonne.class);
-//                    columns.append(colonne.nom()).append(",");
-//                    placeholders.append("?,");
-//                } else if (!field.isAnnotationPresent(Relation.class)) {
-//                    field.setAccessible(true);
-//                    columns.append(field.getName()).append(",");
-//                    placeholders.append("?,");
-//                }
-//            }
-//            // Supprimer la dernière virgule
-//            columns.deleteCharAt(columns.length() - 1);
-//            placeholders.deleteCharAt(placeholders.length() - 1);
-//            // Générer la requête SQL
-//            String sql = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, columns, placeholders);
-//            System.out.println(sql);
-//            PreparedStatement statement = connection.prepareStatement(sql);
-//
-//            // Injecter les valeurs dans la requête
-//            int index = 1;
-//            for (Field field : fields) {
-//                if (field.isAnnotationPresent(JointureDeColonne.class) || !isARelationField(field)) {
-//                    field.setAccessible(true);
-//                    statement.setObject(index++, field.get(entity)); // Récupérer la valeur du champ
-//                    System.out.println(field.getName() + " " + field.get(entity));
-//                }
-//            }
-//            statement.executeUpdate();
-//            statement.close();
-//            System.out.println("Record created in table: " + tableName);
-//            return true;
-//
-//        } catch (SQLException | IllegalAccessException e) {
-//            throw new RuntimeException("Error creating record: " + e.getMessage(), e);
-//        }
     }
     default boolean update(Object entity) {
         try {
@@ -136,10 +91,8 @@ public interface CRUD<T,PK> {
 
                     }else if (!field.getName().equalsIgnoreCase("id")) {
                         System.out.println(field.getName());
-                        field.get(entity).getClass();
-                        statement.setObject(index++, field.get(entity)); // Récupérer la valeur du champ
+                        statement.setObject(index++, field.get(entity));
                     }
-                    System.out.println(index);
                 }
 
             }
@@ -153,7 +106,6 @@ public interface CRUD<T,PK> {
                         Field otherField = value.getClass().getDeclaredField(colonne.nom());
                         otherField.setAccessible(true);
                         statement.setObject(index, otherField.get(value));
-
                     }
                 }
             }else {
@@ -172,6 +124,7 @@ public interface CRUD<T,PK> {
             throw new RuntimeException("Error updating record: " + e.getMessage(), e);
         }
     }
+
     default boolean delete(T entity) {
         try {
             Class<?> clazz = entity.getClass();
@@ -207,6 +160,7 @@ public interface CRUD<T,PK> {
             throw new RuntimeException("Error deleting record: " + e.getMessage(), e);
         }
     }
+
     default Optional<T> findById(Class<T> entity, PK id) {
         try {
             String tableName = entity.getSimpleName().toUpperCase();
@@ -315,15 +269,12 @@ public interface CRUD<T,PK> {
                     placeholders.append("?,");
                 }}
 
-        // Supprimer la dernière virgule
             columns.deleteCharAt(columns.length() - 1);
             placeholders.deleteCharAt(placeholders.length() - 1);
-            // Générer la requête SQL
             String sql = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, columns, placeholders);
             System.out.println(sql);
             PreparedStatement statement = connection.prepareStatement(sql);
 
-            // Injecter les valeurs dans la requête
             int index = 1;
             for (Field field : fields) {
                 if (isARelationField(field) && field.isAnnotationPresent(JointureDeColonne.class)) {
@@ -362,7 +313,6 @@ public interface CRUD<T,PK> {
     }
 
     default String tableName(String entity) {
-
         if (entity.toUpperCase().endsWith("DTO")) {
             return  entity.substring(0, entity.length() - 3);
         }

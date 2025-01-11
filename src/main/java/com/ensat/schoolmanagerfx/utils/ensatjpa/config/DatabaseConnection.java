@@ -19,9 +19,7 @@ public class DatabaseConnection {
 
     private DatabaseConnection() {
         try {
-            // Charger la configuration depuis le fichier XML
             DatabaseConfig config = loadDatabaseConfig("src/main/resources/database-config.xml");
-
             System.out.println("Chargement du driver...");
             Class.forName(config.DRIVER());
             System.out.println("Driver chargé avec succès.");
